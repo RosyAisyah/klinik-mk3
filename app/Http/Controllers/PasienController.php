@@ -20,24 +20,34 @@ class PasienController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'konsultasi_id'     => 'required|integer',
-            'nama'              => 'required|string|max:255',
-            'alamat'            => 'required|string|max:255',
-            'jenis_kelamin'     => 'in:Laki-laki,Perempuan',
-            'no_telp'           => 'required|integer',
-            'tanggal_lahir'     => 'required|date',
-            'email'             => 'required|string|max:255',
-            'password'          => 'required|string'
-        ]);
+        try{
+            $validatedData = $request->validate([
+                'id'     => 'required|integer',
+                'nama'              => 'required|string|max:255',
+                'alamat'            => 'required|string|max:255',
+                'jenis_kelamin'     => 'in:Laki-laki,Perempuan',
+                'no_telp'           => 'required|integer',
+                'tanggal_lahir'     => 'required|date',
+                'email'             => 'required|string|max:255',
+                'password'          => 'required|string'
+            ]);
+    
+            $pasiens = Pasien::create($validatedData);
+    
+            return response()->json([
+                'status' => 201,
+                'message' => 'Pasien created successfully.',
+                'data' => $pasiens,
+            ], 201);
+        }
 
-        $pasiens = Pasien::create($validatedData);
+        catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+    }
 
-        return response()->json([
-            'status' => 201,
-            'message' => 'Pasien created successfully.',
-            'data' => $pasiens,
-        ], 201);
     }
 
     public function show(Pasien $pasiens) // ✅ Model Binding
@@ -60,12 +70,14 @@ class PasienController extends Controller
         }    
 
         $validatedData = $request->validate([
-            'konsultasi_id'     => 'required|integer',
+            'id'     => 'required|integer',
             'nama'              => 'required|string|max:255',
             'alamat'            => 'required|string|max:255',
+            'jenis_kelamin'     => 'in:Laki-laki,Perempuan',
+            'no_telp'           => 'required|integer',
             'tanggal_lahir'     => 'required|date',
-            'riwayat_medis'     => 'nullable|text',
-            'email'             => 'required|string|max:255'
+            'email'             => 'required|string|max:255',
+            'password'          => 'required|string'
         ]);
 
         $pasiens->update($validatedData);
