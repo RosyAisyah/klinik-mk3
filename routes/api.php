@@ -33,3 +33,5 @@ Route::delete('/rekam_mediss/{id}', [Rekam_medisController::class, 'destroy']);
 // Route::get('/test', function(){
 //     return response()->json(['message' => 'test']);
 // });
+
+Route::apiResource('pasien', PasienController::class);
