@@ -17,7 +17,7 @@ class PasienController extends Controller
     /**
      * @OA\Get(
      *     path="/api/pasiens",
-     *     summary="Get list of all pasien",
+     *     summar y="Get list of all pasien",
      *     tags={"Pasien"},
      *     @OA\Response(
      *         response=200,
