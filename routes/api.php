@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\Rekam_medisController;
+use App\Http\Controllers\KonsultasiController;
+use App\Http\Controllers\Jadwal_dokterController;
 
 Route::get('/pasiens', [PasienController::class, 'index']);
 Route::get('/pasiens/{id}', [PasienController::class, 'show']); 
@@ -35,3 +37,20 @@ Route::delete('/rekam_mediss/{id}', [Rekam_medisController::class, 'destroy']);
 // });
 
 Route::apiResource('pasien', PasienController::class);
+
+
+
+
+// Route untuk resource Konsultasi
+Route::get('/konsultasi', [KonsultasiController::class, 'index']);            // Menampilkan semua konsultasi
+Route::post('/konsultasi', [KonsultasiController::class, 'store']);           // Menyimpan konsultasi baru
+Route::get('/konsultasi/{id}', [KonsultasiController::class, 'show']);        // Menampilkan detail konsultasi tertentu
+Route::put('/konsultasi/{id}', [KonsultasiController::class, 'update']);      // Mengupdate data konsultasi
+Route::delete('/konsultasi/{id}', [KonsultasiController::class, 'destroy']);  // Menghapus data konsultasi
+
+// Route untuk resource Konsultasi
+Route::get('/jadwal_dokter', [Jadwal_dokterController::class, 'index']);            // Menampilkan semua konsultasi
+Route::post('/jadwal_dokter', [Jadwal_dokterController::class, 'store']);           // Menyimpan konsultasi baru
+Route::get('/jadwal_dokter/{id}', [Jadwal_dokter::class, 'show']);        // Menampilkan detail konsultasi tertentu
+Route::put('/jadwal_dokter/{id}', [Jadwal_dokterController::class, 'update']);      // Mengupdate data konsultasi
+Route::delete('/jadwal_dokter/{id}', [Jadwal_dokterController::class, 'destroy']);  // Menghapus data konsultasi

@@ -173,6 +173,197 @@
                 }
             }
         },
+        "/api/konsultasi": {
+            "get": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Get all consultations",
+                "operationId": "a2433ae594e246c82c3ed2101b70a3be",
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi retrieved successfully"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Create a new consultation",
+                "operationId": "63cb509e0e2a9d687613c0dccfc04ab8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_pasien",
+                                    "id_dokter",
+                                    "tanggal_konsul",
+                                    "status",
+                                    "metode"
+                                ],
+                                "properties": {
+                                    "id_pasien": {
+                                        "type": "integer"
+                                    },
+                                    "id_dokter": {
+                                        "type": "integer"
+                                    },
+                                    "tanggal_konsul": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "selesai",
+                                            "batal"
+                                        ]
+                                    },
+                                    "metode": {
+                                        "type": "string",
+                                        "enum": [
+                                            "online",
+                                            "offline"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Konsultasi created successfully"
+                    }
+                }
+            }
+        },
+        "/api/konsultasi/{id}": {
+            "get": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Get a consultation by ID",
+                "operationId": "f4eecc2805356f6cce3bfa5f6b52ff5d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Konsultasi not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Update a consultation by ID",
+                "operationId": "1e5edb38a5e0d98cdc3a8fa72715aee0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_pasien",
+                                    "id_dokter",
+                                    "tanggal_konsul",
+                                    "status",
+                                    "metode"
+                                ],
+                                "properties": {
+                                    "id_pasien": {
+                                        "type": "integer"
+                                    },
+                                    "id_dokter": {
+                                        "type": "integer"
+                                    },
+                                    "tanggal_konsul": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "selesai",
+                                            "batal"
+                                        ]
+                                    },
+                                    "metode": {
+                                        "type": "string",
+                                        "enum": [
+                                            "online",
+                                            "offline"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi updated successfully"
+                    },
+                    "404": {
+                        "description": "Konsultasi not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Delete consultation by ID",
+                "operationId": "3875a9b484f960edce24cc5c70017c30",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi deleted successfully"
+                    },
+                    "404": {
+                        "description": "Konsultasi not found"
+                    }
+                }
+            }
+        },
         "/api/pasiens": {
             "get": {
                 "tags": [
@@ -699,6 +890,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Konsultasi",
+            "description": "API untuk mengelola data konsultasi"
+        },
         {
             "name": "Rekam Medis",
             "description": "API untuk mengelola data rekam medis"
