@@ -8,8 +8,8 @@ use App\Models\JadwalDokter;
 /**
  * @OA\Info(
  *      version="1.0.0",
- *      title="API Jadwal Dokter",
- *      description="Dokumentasi Swagger untuk Jadwal Dokter"
+ *      title="API Klinik",
+ *      description="Dokumentasi Swagger untuk Aplikasi Klinik"
  * )
  */
 class Jadwal_dokterController extends Controller

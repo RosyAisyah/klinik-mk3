@@ -5,13 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pasien;
 
-/**
- * @OA\Info(
- *     title="API Pasien",
- *     version="1.0.0",
- *     description="Dokumentasi API untuk mengelola data pasien."
- * )
- */
 class PasienController extends Controller
 {
     /**

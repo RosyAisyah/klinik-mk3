@@ -62,7 +62,7 @@ class KonsultasiController extends Controller
         $validatedData = $request->validate([
             'id_pasien' => 'required|integer|exists:pasiens,id',
             'id_dokter' => 'required|integer|exists:dokters,id',
-            'tanggal_konsul' => 'required|date',
+            'tanggal_konsul' => 'required|date_format:Y-m-d H:i:s',
             'status' => 'required|in:pending,selesai,batal',
             'metode' => 'required|in:online,offline',
         ]);

@@ -1,13 +1,16 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API Pasien",
-        "description": "Dokumentasi API untuk mengelola data pasien.",
+        "title": "API Klinik",
+        "description": "Dokumentasi Swagger untuk Aplikasi Klinik",
         "version": "1.0.0"
     },
     "paths": {
         "/api/dokter": {
             "get": {
+                "tags": [
+                    "Dokter"
+                ],
                 "summary": "Get all doctors",
                 "operationId": "7470afc3ecdc948c80b78d87c9b7a397",
                 "responses": {
@@ -17,6 +20,9 @@
                 }
             },
             "post": {
+                "tags": [
+                    "Dokter"
+                ],
                 "summary": "Create a new doctor",
                 "operationId": "86845a036fc0a852519e70cf6e32bd86",
                 "requestBody": {
@@ -69,6 +75,9 @@
         },
         "/api/dokter/{id}": {
             "get": {
+                "tags": [
+                    "Dokter"
+                ],
                 "summary": "Get doctor by ID",
                 "operationId": "9ae2099d069d0f5a9725591fc710c8bb",
                 "parameters": [
@@ -91,6 +100,9 @@
                 }
             },
             "put": {
+                "tags": [
+                    "Dokter"
+                ],
                 "summary": "Update a doctor by ID",
                 "operationId": "edd333fea89bbd1ae8b1e28e4e4c5c16",
                 "parameters": [
@@ -151,6 +163,9 @@
                 }
             },
             "delete": {
+                "tags": [
+                    "Dokter"
+                ],
                 "summary": "Delete doctor by ID",
                 "operationId": "41eaf5da3f9fbe426dae7e87894feb96",
                 "parameters": [
@@ -169,6 +184,157 @@
                     },
                     "404": {
                         "description": "Dokter not found"
+                    }
+                }
+            }
+        },
+        "/api/jadwal-dokter": {
+            "get": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Tampilkan semua jadwal dokter",
+                "operationId": "37e6dd77903761b42eac4dd808c26114",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan semua jadwal dokter"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Tambah jadwal dokter baru",
+                "operationId": "69c6a2a604dcd687fd595383aef1cab5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "ID_Dokter",
+                                    "Hari",
+                                    "Jam_Mulai",
+                                    "Jam_Selesai"
+                                ],
+                                "properties": {
+                                    "ID_Dokter": {
+                                        "type": "integer"
+                                    },
+                                    "Hari": {
+                                        "type": "string"
+                                    },
+                                    "Jam_Mulai": {
+                                        "type": "string",
+                                        "format": "time"
+                                    },
+                                    "Jam_Selesai": {
+                                        "type": "string",
+                                        "format": "time"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Jadwal berhasil ditambahkan"
+                    }
+                }
+            }
+        },
+        "/api/jadwal-dokter/{id}": {
+            "get": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Tampilkan jadwal dokter berdasarkan ID",
+                "operationId": "8b38829cc19116897ec108246473b6fa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan jadwal dokter"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Perbarui jadwal dokter",
+                "operationId": "bd05f3e625e0ddda80651bf3a040502d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ID_Dokter": {
+                                        "type": "integer"
+                                    },
+                                    "Hari": {
+                                        "type": "string"
+                                    },
+                                    "Jam_Mulai": {
+                                        "type": "string",
+                                        "format": "time"
+                                    },
+                                    "Jam_Selesai": {
+                                        "type": "string",
+                                        "format": "time"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Jadwal dokter berhasil diperbarui"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Hapus jadwal dokter",
+                "operationId": "451e86937b1b779a771e3c06a5e98af5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Jadwal dokter berhasil dihapus"
                     }
                 }
             }
@@ -897,6 +1063,14 @@
         {
             "name": "Rekam Medis",
             "description": "API untuk mengelola data rekam medis"
+        },
+        {
+            "name": "Dokter",
+            "description": "Dokter"
+        },
+        {
+            "name": "Jadwal Dokter",
+            "description": "Jadwal Dokter"
         },
         {
             "name": "Pasien",
