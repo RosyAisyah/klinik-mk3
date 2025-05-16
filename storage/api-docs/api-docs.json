@@ -530,6 +530,194 @@
                 }
             }
         },
+        "/api/laporans": {
+            "get": {
+                "tags": [
+                    "Laporan"
+                ],
+                "summary": "Menampilkan semua laporan",
+                "operationId": "09df9c54c0fb3a8677d3a8bf79beecc8",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data laporan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Laporan"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Laporan"
+                ],
+                "summary": "Membuat laporan baru",
+                "operationId": "ad651a44cdeafa5928ddb3a17d17154d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "periode",
+                                    "jumlah_pasien",
+                                    "total_pendapatan"
+                                ],
+                                "properties": {
+                                    "periode": {
+                                        "type": "string",
+                                        "example": "2025-04"
+                                    },
+                                    "jumlah_pasien": {
+                                        "type": "integer",
+                                        "example": 120
+                                    },
+                                    "total_pendapatan": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5000000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Laporan berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Laporan"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/laporans/{id}": {
+            "get": {
+                "tags": [
+                    "Laporan"
+                ],
+                "summary": "Menampilkan detail laporan berdasarkan ID",
+                "operationId": "34670058100b671f017c39a4979a1822",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID laporan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil detail laporan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Laporan"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Laporan tidak ditemukan"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Laporan"
+                ],
+                "summary": "Mengupdate laporan berdasarkan ID",
+                "operationId": "3a0ebe559f022e9224aafa749bfdec67",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID laporan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "periode": {
+                                        "type": "string",
+                                        "example": "2025-05"
+                                    },
+                                    "jumlah_pasien": {
+                                        "type": "integer",
+                                        "example": 135
+                                    },
+                                    "total_pendapatan": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 7500000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Laporan berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Laporan"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Laporan"
+                ],
+                "summary": "Menghapus laporan berdasarkan ID",
+                "operationId": "87b007224c0b0b45344c9571399e92cf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID laporan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Laporan berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Laporan tidak ditemukan"
+                    }
+                }
+            }
+        },
         "/api/pasiens": {
             "get": {
                 "tags": [
@@ -848,6 +1036,202 @@
                 }
             }
         },
+        "/api/payment": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Ambil semua data pembayaran",
+                "operationId": "318a8e6d1447a7cbd66237ccd6660678",
+                "responses": {
+                    "200": {
+                        "description": "Daftar payment berhasil diambil"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Buat pembayaran baru",
+                "operationId": "8bd089442f313f34b467e2625ff83655",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "konsultasi_id",
+                                    "jumlah_bayar",
+                                    "metode_bayar",
+                                    "status_pembayaran"
+                                ],
+                                "properties": {
+                                    "konsultasi_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "jumlah_bayar": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150000
+                                    },
+                                    "metode_bayar": {
+                                        "type": "string",
+                                        "enum": [
+                                            "cash",
+                                            "transfer",
+                                            "ewallet"
+                                        ],
+                                        "example": "transfer"
+                                    },
+                                    "status_pembayaran": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "berhasil",
+                                            "gagal"
+                                        ],
+                                        "example": "pending"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment berhasil dibuat"
+                    },
+                    "422": {
+                        "description": "Validasi gagal"
+                    }
+                }
+            }
+        },
+        "/api/payment/{id}": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Ambil pembayaran berdasarkan ID",
+                "operationId": "5ec820dc5a59156a714c50a583e10016",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment ditemukan"
+                    },
+                    "404": {
+                        "description": "Payment tidak ditemukan"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Perbarui pembayaran",
+                "operationId": "10949ea5e086056f5083407b17d955df",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "konsultasi_id",
+                                    "jumlah_bayar",
+                                    "metode_bayar",
+                                    "status_pembayaran"
+                                ],
+                                "properties": {
+                                    "konsultasi_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "jumlah_bayar": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 175000
+                                    },
+                                    "metode_bayar": {
+                                        "type": "string",
+                                        "enum": [
+                                            "cash",
+                                            "transfer",
+                                            "ewallet"
+                                        ],
+                                        "example": "ewallet"
+                                    },
+                                    "status_pembayaran": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "berhasil",
+                                            "gagal"
+                                        ],
+                                        "example": "berhasil"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment berhasil diperbarui"
+                    },
+                    "404": {
+                        "description": "Payment tidak ditemukan"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Hapus pembayaran berdasarkan ID",
+                "operationId": "05cc141cec4b7acba5a54f72f1e511cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Payment tidak ditemukan"
+                    }
+                }
+            }
+        },
         "/api/rekam-medis": {
             "get": {
                 "tags": [
@@ -1055,10 +1439,54 @@
             }
         }
     },
+    "components": {
+        "schemas": {
+            "Laporan": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "periode": {
+                        "type": "string",
+                        "example": "2025-04"
+                    },
+                    "jumlah_pasien": {
+                        "type": "integer",
+                        "example": 120
+                    },
+                    "total_pendapatan": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000000
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-16T10:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-16T10:00:00Z"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
     "tags": [
         {
             "name": "Konsultasi",
             "description": "API untuk mengelola data konsultasi"
+        },
+        {
+            "name": "Laporan",
+            "description": "API untuk mengelola laporan bulanan"
+        },
+        {
+            "name": "Payment",
+            "description": "API untuk manajemen data pembayaran konsultasi"
         },
         {
             "name": "Rekam Medis",
