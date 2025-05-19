@@ -77,4 +77,5 @@ Route::prefix('laporans')->group(function () {
     Route::delete('/laporans/{id}', [LaporanController::class, 'destroy']); // DELETE /api/laporans/{id}
 });
 
-//check push
+//check push1
+//check push2
