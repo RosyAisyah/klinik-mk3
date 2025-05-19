@@ -10,6 +10,7 @@ class DokterController extends Controller
     /**
      * @OA\Get(
      *     path="/api/dokter",
+     *     tags={"Dokter"},
      *     summary="Get all doctors",
      *     @OA\Response(
      *         response=200,
@@ -31,6 +32,7 @@ class DokterController extends Controller
     /**
      * @OA\Post(
      *     path="/api/dokter",
+     *     tags={"Dokter"},
      *     summary="Create a new doctor",
      *     @OA\RequestBody(
      *         required=true,
@@ -84,6 +86,7 @@ class DokterController extends Controller
     /**
      * @OA\Get(
      *     path="/api/dokter/{id}",
+     *     tags={"Dokter"},
      *     summary="Get doctor by ID",
      *     @OA\Parameter(
      *         name="id",
@@ -113,6 +116,7 @@ class DokterController extends Controller
     /**
      * @OA\Put(
      *     path="/api/dokter/{id}",
+     *     tags={"Dokter"},
      *     summary="Update a doctor by ID",
      *     @OA\Parameter(
      *         name="id",
@@ -173,6 +177,7 @@ class DokterController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/dokter/{id}",
+     *     tags={"Dokter"},
      *     summary="Delete doctor by ID",
      *     @OA\Parameter(
      *         name="id",
