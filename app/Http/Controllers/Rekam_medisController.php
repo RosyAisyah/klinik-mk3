@@ -15,7 +15,7 @@ class Rekam_medisController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/rekam-medis",
+     *     path="/api/rekam_mediss",
      *     tags={"Rekam Medis"},
      *     summary="Menampilkan semua data rekam medis",
      *     @OA\Response(
@@ -37,7 +37,7 @@ class Rekam_medisController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/rekam-medis",
+     *     path="/api/rekam_mediss",
      *     tags={"Rekam Medis"},
      *     summary="Membuat rekam medis baru",
      *     @OA\RequestBody(
@@ -93,7 +93,7 @@ class Rekam_medisController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/rekam-medis/{id}",
+     *     path="/api/rekam_mediss/{id}",
      *     tags={"Rekam Medis"},
      *     summary="Menampilkan detail rekam medis berdasarkan ID",
      *     @OA\Parameter(
@@ -123,7 +123,7 @@ class Rekam_medisController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/rekam-medis/{id}",
+     *     path="/api/rekam_mediss/{id}",
      *     tags={"Rekam Medis"},
      *     summary="Memperbarui data rekam medis",
      *     @OA\Parameter(
@@ -186,7 +186,7 @@ class Rekam_medisController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/rekam-medis/{id}",
+     *     path="/api/rekam_mediss/{id}",
      *     tags={"Rekam Medis"},
      *     summary="Menghapus rekam medis berdasarkan ID",
      *     @OA\Parameter(

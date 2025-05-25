@@ -16,4 +16,10 @@ class Dokter extends Model
         'email',
         'password'
     ];
+
+    public function jadwaldokter()
+    {
+        return $this->hasMany(JadwalDokter::class);
+    }
+
 }

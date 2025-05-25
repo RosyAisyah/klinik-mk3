@@ -15,4 +15,10 @@ class Payment extends Model
         'metode_bayar',
         'status_pembayaran'
     ];
+
+    public function konsultasi()
+    {
+        return $this->belongsTo(Konsultasi::class);
+    }
+
 }

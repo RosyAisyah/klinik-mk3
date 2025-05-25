@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('jadwal_dokters', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->foreignId('dokter_id')->constrained('dokters')->onDelete('cascade');
-            $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']); // Menambahkan daftar hari
+            $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'])->comment('Hari praktik dokter');
             $table->time('jam_mulai');
             $table->time('jam_selesai');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jadwal_dokters'); // Perbaiki nama tabel di sini
+        Schema::dropIfExists('jadwal_dokters');
     }
 };

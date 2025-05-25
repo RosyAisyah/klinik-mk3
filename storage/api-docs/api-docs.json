@@ -257,13 +257,13 @@
                 }
             }
         },
-        "/api/jadwal-dokter": {
+        "/api/jadwal_dokter": {
             "get": {
                 "tags": [
                     "Jadwal Dokter"
                 ],
                 "summary": "Tampilkan semua jadwal dokter",
-                "operationId": "37e6dd77903761b42eac4dd808c26114",
+                "operationId": "df68fc653cc806a579aeac6e1810fca9",
                 "responses": {
                     "200": {
                         "description": "Berhasil menampilkan semua jadwal dokter"
@@ -275,32 +275,36 @@
                     "Jadwal Dokter"
                 ],
                 "summary": "Tambah jadwal dokter baru",
-                "operationId": "69c6a2a604dcd687fd595383aef1cab5",
+                "operationId": "a9d12327fb835ba4ea8f5d6a1e4cbe71",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "ID_Dokter",
-                                    "Hari",
-                                    "Jam_Mulai",
-                                    "Jam_Selesai"
+                                    "dokter_id",
+                                    "hari",
+                                    "jam_mulai",
+                                    "jam_selesai"
                                 ],
                                 "properties": {
-                                    "ID_Dokter": {
-                                        "type": "integer"
+                                    "dokter_id": {
+                                        "type": "integer",
+                                        "example": 1
                                     },
-                                    "Hari": {
-                                        "type": "string"
-                                    },
-                                    "Jam_Mulai": {
+                                    "hari": {
                                         "type": "string",
-                                        "format": "time"
+                                        "example": "Senin"
                                     },
-                                    "Jam_Selesai": {
+                                    "jam_mulai": {
                                         "type": "string",
-                                        "format": "time"
+                                        "format": "time",
+                                        "example": "08:00"
+                                    },
+                                    "jam_selesai": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "12:00"
                                     }
                                 },
                                 "type": "object"
@@ -315,13 +319,13 @@
                 }
             }
         },
-        "/api/jadwal-dokter/{id}": {
+        "/api/jadwal_dokter/{id}": {
             "get": {
                 "tags": [
                     "Jadwal Dokter"
                 ],
                 "summary": "Tampilkan jadwal dokter berdasarkan ID",
-                "operationId": "8b38829cc19116897ec108246473b6fa",
+                "operationId": "eeb0a402b1d67bf3c9502781fac262ea",
                 "parameters": [
                     {
                         "name": "id",
@@ -343,7 +347,7 @@
                     "Jadwal Dokter"
                 ],
                 "summary": "Perbarui jadwal dokter",
-                "operationId": "bd05f3e625e0ddda80651bf3a040502d",
+                "operationId": "f8ccd8efba13b4e8dbd704ea27f70205",
                 "parameters": [
                     {
                         "name": "id",
@@ -359,19 +363,23 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "ID_Dokter": {
-                                        "type": "integer"
+                                    "dokter_id": {
+                                        "type": "integer",
+                                        "example": 1
                                     },
-                                    "Hari": {
-                                        "type": "string"
-                                    },
-                                    "Jam_Mulai": {
+                                    "hari": {
                                         "type": "string",
-                                        "format": "time"
+                                        "example": "Selasa"
                                     },
-                                    "Jam_Selesai": {
+                                    "jam_mulai": {
                                         "type": "string",
-                                        "format": "time"
+                                        "format": "time",
+                                        "example": "09:00"
+                                    },
+                                    "jam_selesai": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "13:00"
                                     }
                                 },
                                 "type": "object"
@@ -390,7 +398,7 @@
                     "Jadwal Dokter"
                 ],
                 "summary": "Hapus jadwal dokter",
-                "operationId": "451e86937b1b779a771e3c06a5e98af5",
+                "operationId": "68e12e3fe0c4325fde7edd7a6aa8cc34",
                 "parameters": [
                     {
                         "name": "id",
@@ -408,13 +416,89 @@
                 }
             }
         },
-        "/api/konsultasi": {
+        "/api/jadwal_dokter_with_dokter": {
+            "get": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Tampilkan semua jadwal dokter beserta data dokternya",
+                "operationId": "c12934597bd6005eec5a1aec54a24c45",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan data jadwal dokter dengan relasi dokter",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data jadwal dokter ditemukan"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "hari": {
+                                                        "type": "string",
+                                                        "example": "Senin"
+                                                    },
+                                                    "jam_mulai": {
+                                                        "type": "string",
+                                                        "example": "08:00"
+                                                    },
+                                                    "jam_selesai": {
+                                                        "type": "string",
+                                                        "example": "12:00"
+                                                    },
+                                                    "dokter": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nama": {
+                                                                "type": "string",
+                                                                "example": "dr. Andi"
+                                                            },
+                                                            "spesialis": {
+                                                                "type": "string",
+                                                                "example": "Umum"
+                                                            },
+                                                            "no_telp": {
+                                                                "type": "string",
+                                                                "example": "08123456789"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "andi@example.com"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/konsultasis": {
             "get": {
                 "tags": [
                     "Konsultasi"
                 ],
                 "summary": "Get all consultations",
-                "operationId": "a2433ae594e246c82c3ed2101b70a3be",
+                "operationId": "2ab60903301b1e9bd787e198eb0bd53a",
                 "responses": {
                     "200": {
                         "description": "Konsultasi retrieved successfully"
@@ -426,13 +510,14 @@
                     "Konsultasi"
                 ],
                 "summary": "Create a new consultation",
-                "operationId": "63cb509e0e2a9d687613c0dccfc04ab8",
+                "operationId": "2014d86aafc3673041397a9917e97f04",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "id_konsultasi",
                                     "id_pasien",
                                     "id_dokter",
                                     "tanggal_konsul",
@@ -440,6 +525,9 @@
                                     "metode"
                                 ],
                                 "properties": {
+                                    "id_konsultasi": {
+                                        "type": "integer"
+                                    },
                                     "id_pasien": {
                                         "type": "integer"
                                     },
@@ -448,7 +536,7 @@
                                     },
                                     "tanggal_konsul": {
                                         "type": "string",
-                                        "format": "date-time"
+                                        "format": "date"
                                     },
                                     "status": {
                                         "type": "string",
@@ -478,13 +566,13 @@
                 }
             }
         },
-        "/api/konsultasi/{id}": {
+        "/api/konsultasis/{id}": {
             "get": {
                 "tags": [
                     "Konsultasi"
                 ],
                 "summary": "Get a consultation by ID",
-                "operationId": "f4eecc2805356f6cce3bfa5f6b52ff5d",
+                "operationId": "de5926efb59256d7a1468e2e02b7f7dd",
                 "parameters": [
                     {
                         "name": "id",
@@ -509,7 +597,7 @@
                     "Konsultasi"
                 ],
                 "summary": "Update a consultation by ID",
-                "operationId": "1e5edb38a5e0d98cdc3a8fa72715aee0",
+                "operationId": "0a03e8a7b56836072904d6eab085b1ca",
                 "parameters": [
                     {
                         "name": "id",
@@ -526,6 +614,7 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "id_konsultasi",
                                     "id_pasien",
                                     "id_dokter",
                                     "tanggal_konsul",
@@ -533,6 +622,9 @@
                                     "metode"
                                 ],
                                 "properties": {
+                                    "id_konsultasi": {
+                                        "type": "integer"
+                                    },
                                     "id_pasien": {
                                         "type": "integer"
                                     },
@@ -578,7 +670,7 @@
                     "Konsultasi"
                 ],
                 "summary": "Delete consultation by ID",
-                "operationId": "3875a9b484f960edce24cc5c70017c30",
+                "operationId": "706f960bba2581f1cc598419cb68e7d7",
                 "parameters": [
                     {
                         "name": "id",
@@ -599,6 +691,101 @@
                 }
             }
         },
+        "/api/konsultasis/detail": {
+            "get": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Menampilkan semua data konsultasi beserta relasi pasien dan dokter",
+                "description": "Mengambil data konsultasi lengkap dengan data pasien (id, nama, alamat, jenis_kelamin) dan dokter (id, nama, spesialis, no_telp, email)",
+                "operationId": "836c31639a41597d9d42645f9d582352",
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi with relations retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Konsultasi with relations retrieved successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "tanggal_konsultasi": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2025-05-26"
+                                                    },
+                                                    "pasien": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 3
+                                                            },
+                                                            "nama": {
+                                                                "type": "string",
+                                                                "example": "Erlinda Nabilla"
+                                                            },
+                                                            "alamat": {
+                                                                "type": "string",
+                                                                "example": "Jl. Melati No. 5"
+                                                            },
+                                                            "jenis_kelamin": {
+                                                                "type": "string",
+                                                                "example": "Perempuan"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "dokter": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "nama": {
+                                                                "type": "string",
+                                                                "example": "dr. Raka Pratama"
+                                                            },
+                                                            "spesialis": {
+                                                                "type": "string",
+                                                                "example": "Saraf"
+                                                            },
+                                                            "no_telp": {
+                                                                "type": "string",
+                                                                "example": "081234567890"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "raka@kliniksehat.com"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/laporans": {
             "get": {
                 "tags": [
@@ -614,7 +801,36 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Laporan"
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "periode": {
+                                                "type": "string",
+                                                "example": "2025-04-03"
+                                            },
+                                            "jumlah_pasien": {
+                                                "type": "integer",
+                                                "example": 120
+                                            },
+                                            "total_pendapatan": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 5000000
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-05-03"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-05-04"
+                                            }
+                                        },
+                                        "type": "object"
                                     }
                                 }
                             }
@@ -641,7 +857,7 @@
                                 "properties": {
                                     "periode": {
                                         "type": "string",
-                                        "example": "2025-04"
+                                        "example": "2025-04-03"
                                     },
                                     "jumlah_pasien": {
                                         "type": "integer",
@@ -664,7 +880,36 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Laporan"
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "periode": {
+                                            "type": "string",
+                                            "example": "2025-04-03"
+                                        },
+                                        "jumlah_pasien": {
+                                            "type": "integer",
+                                            "example": 120
+                                        },
+                                        "total_pendapatan": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 5000000
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2025-05-03"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2025-05-03"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -696,7 +941,36 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Laporan"
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "periode": {
+                                            "type": "string",
+                                            "example": "2025-04-03"
+                                        },
+                                        "jumlah_pasien": {
+                                            "type": "integer",
+                                            "example": 120
+                                        },
+                                        "total_pendapatan": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 5000000
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2025-05-03"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2025-05-04"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -724,13 +998,14 @@
                     }
                 ],
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
                                     "periode": {
                                         "type": "string",
-                                        "example": "2025-05"
+                                        "example": "2025-05-03"
                                     },
                                     "jumlah_pasien": {
                                         "type": "integer",
@@ -753,10 +1028,42 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Laporan"
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "periode": {
+                                            "type": "string",
+                                            "example": "2025-05-03"
+                                        },
+                                        "jumlah_pasien": {
+                                            "type": "integer",
+                                            "example": 135
+                                        },
+                                        "total_pendapatan": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 7500000
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2025-05-03"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2025-05-04"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Laporan tidak ditemukan"
                     }
                 }
             },
@@ -1105,13 +1412,13 @@
                 }
             }
         },
-        "/api/payment": {
+        "/api/payments": {
             "get": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Ambil semua data pembayaran",
-                "operationId": "318a8e6d1447a7cbd66237ccd6660678",
+                "operationId": "826dc6b24dd704607aa018a59207dd96",
                 "responses": {
                     "200": {
                         "description": "Daftar payment berhasil diambil"
@@ -1123,7 +1430,7 @@
                     "Payment"
                 ],
                 "summary": "Buat pembayaran baru",
-                "operationId": "8bd089442f313f34b467e2625ff83655",
+                "operationId": "5e2794ba3d3c64e70873367505e4a751",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1137,34 +1444,40 @@
                                 ],
                                 "properties": {
                                     "konsultasi_id": {
-                                        "type": "integer",
-                                        "example": 3
+                                        "description": "ID konsultasi",
+                                        "type": "integer"
                                     },
                                     "jumlah_bayar": {
+                                        "description": "Jumlah yang dibayar",
                                         "type": "number",
-                                        "format": "float",
-                                        "example": 150000
+                                        "format": "float"
                                     },
                                     "metode_bayar": {
+                                        "description": "Metode pembayaran",
                                         "type": "string",
                                         "enum": [
                                             "cash",
                                             "transfer",
                                             "ewallet"
-                                        ],
-                                        "example": "transfer"
+                                        ]
                                     },
                                     "status_pembayaran": {
+                                        "description": "Status pembayaran",
                                         "type": "string",
                                         "enum": [
                                             "pending",
                                             "berhasil",
                                             "gagal"
-                                        ],
-                                        "example": "pending"
+                                        ]
                                     }
                                 },
                                 "type": "object"
+                            },
+                            "example": {
+                                "konsultasi_id": 0,
+                                "jumlah_bayar": 0,
+                                "metode_bayar": "cash/transfer/ewallet",
+                                "status_pembayaran": "pending/berhasil/gagal"
                             }
                         }
                     }
@@ -1173,19 +1486,19 @@
                     "201": {
                         "description": "Payment berhasil dibuat"
                     },
-                    "422": {
+                    "404": {
                         "description": "Validasi gagal"
                     }
                 }
             }
         },
-        "/api/payment/{id}": {
+        "/api/payments/{id}": {
             "get": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Ambil pembayaran berdasarkan ID",
-                "operationId": "5ec820dc5a59156a714c50a583e10016",
+                "operationId": "a9a7656e0f22931dbcedc57a2d959554",
                 "parameters": [
                     {
                         "name": "id",
@@ -1210,7 +1523,7 @@
                     "Payment"
                 ],
                 "summary": "Perbarui pembayaran",
-                "operationId": "10949ea5e086056f5083407b17d955df",
+                "operationId": "9f607012ea3accda178adb489aa28da2",
                 "parameters": [
                     {
                         "name": "id",
@@ -1280,7 +1593,7 @@
                     "Payment"
                 ],
                 "summary": "Hapus pembayaran berdasarkan ID",
-                "operationId": "05cc141cec4b7acba5a54f72f1e511cb",
+                "operationId": "eee625edf09d69ad0d35b893a3b4f087",
                 "parameters": [
                     {
                         "name": "id",
@@ -1301,13 +1614,13 @@
                 }
             }
         },
-        "/api/rekam-medis": {
+        "/api/rekam_mediss": {
             "get": {
                 "tags": [
                     "Rekam Medis"
                 ],
                 "summary": "Menampilkan semua data rekam medis",
-                "operationId": "628ffd68910d86b3a26ed720831f2a27",
+                "operationId": "0e337dbef5c9052ea436b69c3fa1f5d4",
                 "responses": {
                     "200": {
                         "description": "Daftar rekam medis berhasil diambil"
@@ -1319,7 +1632,7 @@
                     "Rekam Medis"
                 ],
                 "summary": "Membuat rekam medis baru",
-                "operationId": "548e44d8a3e25adb020fd38abc89dc11",
+                "operationId": "1c8d7b3ce3b763a47c95352ba62ea47e",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1380,13 +1693,13 @@
                 }
             }
         },
-        "/api/rekam-medis/{id}": {
+        "/api/rekam_mediss/{id}": {
             "get": {
                 "tags": [
                     "Rekam Medis"
                 ],
                 "summary": "Menampilkan detail rekam medis berdasarkan ID",
-                "operationId": "0bc3fc04518646a5f084983dfd7e8f1c",
+                "operationId": "bc8c5cb526b598c33c6eaaa79254ad79",
                 "parameters": [
                     {
                         "name": "id",
@@ -1411,7 +1724,7 @@
                     "Rekam Medis"
                 ],
                 "summary": "Memperbarui data rekam medis",
-                "operationId": "695ad73c55169c2653b2a3bd62d869f6",
+                "operationId": "accc7c9205bd12f78a0b51a21390a991",
                 "parameters": [
                     {
                         "name": "id",
@@ -1486,7 +1799,7 @@
                     "Rekam Medis"
                 ],
                 "summary": "Menghapus rekam medis berdasarkan ID",
-                "operationId": "86dee069c3e06d66827f435fbb971d3e",
+                "operationId": "94d1723f2d555c77d6892ddc2eaf1a6c",
                 "parameters": [
                     {
                         "name": "id",
@@ -1505,42 +1818,6 @@
                         "description": "Rekam medis tidak ditemukan"
                     }
                 }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "Laporan": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "periode": {
-                        "type": "string",
-                        "example": "2025-04"
-                    },
-                    "jumlah_pasien": {
-                        "type": "integer",
-                        "example": 120
-                    },
-                    "total_pendapatan": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 5000000
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2025-05-16T10:00:00Z"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2025-05-16T10:00:00Z"
-                    }
-                },
-                "type": "object"
             }
         }
     },

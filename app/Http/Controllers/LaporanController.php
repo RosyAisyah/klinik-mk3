@@ -10,16 +10,6 @@ use Illuminate\Http\Request;
  *     name="Laporan",
  *     description="API untuk mengelola laporan bulanan"
  * )
- *
- * @OA\Schema(
- *     schema="Laporan",
- *     @OA\Property(property="id", type="integer", example=1),
- *     @OA\Property(property="periode", type="string", example="2025-04"),
- *     @OA\Property(property="jumlah_pasien", type="integer", example=120),
- *     @OA\Property(property="total_pendapatan", type="number", format="float", example=5000000),
- *     @OA\Property(property="created_at", type="string", format="date-time", example="2025-05-16T10:00:00Z"),
- *     @OA\Property(property="updated_at", type="string", format="date-time", example="2025-05-16T10:00:00Z")
- * )
  */
 class LaporanController extends Controller
 {
@@ -31,7 +21,17 @@ class LaporanController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Berhasil mengambil data laporan",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Laporan"))
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="periode", type="string", example="2025-04-03"),
+     *                 @OA\Property(property="jumlah_pasien", type="integer", example=120),
+     *                 @OA\Property(property="total_pendapatan", type="number", format="float", example=5000000),
+     *                 @OA\Property(property="created_at", type="string", format="date", example="2025-05-03"),
+     *                 @OA\Property(property="updated_at", type="string", format="date", example="2025-05-04")
+     *             )
+     *         )
      *     )
      * )
      */
@@ -49,7 +49,7 @@ class LaporanController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"periode","jumlah_pasien","total_pendapatan"},
-     *             @OA\Property(property="periode", type="string", example="2025-04"),
+     *             @OA\Property(property="periode", type="string", example="2025-04-03"),
      *             @OA\Property(property="jumlah_pasien", type="integer", example=120),
      *             @OA\Property(property="total_pendapatan", type="number", format="float", example=5000000)
      *         )
@@ -57,7 +57,14 @@ class LaporanController extends Controller
      *     @OA\Response(
      *         response=201,
      *         description="Laporan berhasil dibuat",
-     *         @OA\JsonContent(ref="#/components/schemas/Laporan")
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer", example=5),
+     *             @OA\Property(property="periode", type="string", example="2025-04-03"),
+     *             @OA\Property(property="jumlah_pasien", type="integer", example=120),
+     *             @OA\Property(property="total_pendapatan", type="number", format="float", example=5000000),
+     *             @OA\Property(property="created_at", type="string", format="date", example="2025-05-03"),
+     *             @OA\Property(property="updated_at", type="string", format="date", example="2025-05-03")
+     *         )
      *     )
      * )
      */
@@ -75,19 +82,23 @@ class LaporanController extends Controller
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID laporan",
      *         required=true,
+     *         description="ID laporan",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Berhasil mengambil detail laporan",
-     *         @OA\JsonContent(ref="#/components/schemas/Laporan")
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="periode", type="string", example="2025-04-03"),
+     *             @OA\Property(property="jumlah_pasien", type="integer", example=120),
+     *             @OA\Property(property="total_pendapatan", type="number", format="float", example=5000000),
+     *             @OA\Property(property="created_at", type="string", format="date", example="2025-05-03"),
+     *             @OA\Property(property="updated_at", type="string", format="date", example="2025-05-04")
+     *         )
      *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Laporan tidak ditemukan"
-     *     )
+     *     @OA\Response(response=404, description="Laporan tidak ditemukan")
      * )
      */
     public function show($id)
@@ -107,13 +118,14 @@ class LaporanController extends Controller
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID laporan",
      *         required=true,
+     *         description="ID laporan",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
+     *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="periode", type="string", example="2025-05"),
+     *             @OA\Property(property="periode", type="string", example="2025-05-03"),
      *             @OA\Property(property="jumlah_pasien", type="integer", example=135),
      *             @OA\Property(property="total_pendapatan", type="number", format="float", example=7500000)
      *         )
@@ -121,8 +133,16 @@ class LaporanController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Laporan berhasil diupdate",
-     *         @OA\JsonContent(ref="#/components/schemas/Laporan")
-     *     )
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="periode", type="string", example="2025-05-03"),
+     *             @OA\Property(property="jumlah_pasien", type="integer", example=135),
+     *             @OA\Property(property="total_pendapatan", type="number", format="float", example=7500000),
+     *             @OA\Property(property="created_at", type="string", format="date", example="2025-05-03"),
+     *             @OA\Property(property="updated_at", type="string", format="date", example="2025-05-04")
+     *         )
+     *     ),
+     *     @OA\Response(response=404, description="Laporan tidak ditemukan")
      * )
      */
     public function update(Request $request, $id)
@@ -144,18 +164,12 @@ class LaporanController extends Controller
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID laporan",
      *         required=true,
+     *         description="ID laporan",
      *         @OA\Schema(type="integer")
      *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="Laporan berhasil dihapus"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Laporan tidak ditemukan"
-     *     )
+     *     @OA\Response(response=204, description="Laporan berhasil dihapus"),
+     *     @OA\Response(response=404, description="Laporan tidak ditemukan")
      * )
      */
     public function destroy($id)

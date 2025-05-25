@@ -15,7 +15,7 @@ class PaymentController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/payment",
+     *     path="/api/payments",
      *     tags={"Payment"},
      *     summary="Ambil semua data pembayaran",
      *     @OA\Response(
@@ -35,31 +35,42 @@ class PaymentController extends Controller
         ]);
     }
 
-    /**
-     * @OA\Post(
-     *     path="/api/payment",
-     *     tags={"Payment"},
-     *     summary="Buat pembayaran baru",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"konsultasi_id","jumlah_bayar","metode_bayar","status_pembayaran"},
-     *             @OA\Property(property="konsultasi_id",   type="integer", example=3),
-     *             @OA\Property(property="jumlah_bayar",    type="number",  format="float", example=150000),
-     *             @OA\Property(property="metode_bayar",    type="string",  enum={"cash","transfer","ewallet"}, example="transfer"),
-     *             @OA\Property(property="status_pembayaran", type="string", enum={"pending","berhasil","gagal"}, example="pending")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Payment berhasil dibuat"
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Validasi gagal"
-     *     )
-     * )
-     */
+/**
+ * @OA\Post(
+ *     path="/api/payments",
+ *     tags={"Payment"},
+ *     summary="Buat pembayaran baru",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"konsultasi_id","jumlah_bayar","metode_bayar","status_pembayaran"},
+ *             @OA\Property(property="konsultasi_id", type="integer", description="ID konsultasi"),
+ *             @OA\Property(property="jumlah_bayar",  type="number",  format="float", description="Jumlah yang dibayar"),
+ *             @OA\Property(
+ *                 property="metode_bayar",
+ *                 type="string",
+ *                 enum={"cash","transfer","ewallet"},
+ *                 description="Metode pembayaran"
+ *             ),
+ *             @OA\Property(
+ *                 property="status_pembayaran",
+ *                 type="string",
+ *                 enum={"pending","berhasil","gagal"},
+ *                 description="Status pembayaran"
+ *             ),
+ *             example={
+ *                 "konsultasi_id": 0,
+ *                 "jumlah_bayar": 0,
+ *                 "metode_bayar": "cash/transfer/ewallet",
+ *                 "status_pembayaran": "pending/berhasil/gagal"
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(response=201, description="Payment berhasil dibuat"),
+ *     @OA\Response(response=404, description="Validasi gagal")
+ * )
+ */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -80,7 +91,7 @@ class PaymentController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/payment/{id}",
+     *     path="/api/payments/{id}",
      *     tags={"Payment"},
      *     summary="Ambil pembayaran berdasarkan ID",
      *     @OA\Parameter(
@@ -119,7 +130,7 @@ class PaymentController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/payment/{id}",
+     *     path="/api/payments/{id}",
      *     tags={"Payment"},
      *     summary="Perbarui pembayaran",
      *     @OA\Parameter(
@@ -177,7 +188,7 @@ class PaymentController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/payment/{id}",
+     *     path="/api/payments/{id}",
      *     tags={"Payment"},
      *     summary="Hapus pembayaran berdasarkan ID",
      *     @OA\Parameter(
