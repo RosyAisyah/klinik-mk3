@@ -9,7 +9,7 @@ class DokterController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/dokter",
+     *     path="/api/dokters",
      *     tags={"Dokter"},
      *     summary="Get all doctors",
      *     @OA\Response(
@@ -31,7 +31,7 @@ class DokterController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/dokter",
+     *     path="/api/dokters",
      *     tags={"Dokter"},
      *     summary="Create a new doctor",
      *     @OA\RequestBody(
@@ -85,7 +85,7 @@ class DokterController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/dokter/{id}",
+     *     path="/api/dokters/{id}",
      *     tags={"Dokter"},
      *     summary="Get doctor by ID",
      *     @OA\Parameter(
@@ -104,18 +104,29 @@ class DokterController extends Controller
      *     )
      * )
      */
-    public function show(Dokter $dokters)
+    public function show($id)
     {
+        $dokter = Dokter::find($id);
+    
+        if (!$dokter) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Dokter not found.',
+                'data' => null,
+            ], 404);
+        }
+    
         return response()->json([
             'status' => 200,
             'message' => 'Dokter retrieved successfully.',
-            'data' => $dokters,
+            'data' => $dokter,
         ], 200);
     }
+    
 
     /**
      * @OA\Put(
-     *     path="/api/dokter/{id}",
+     *     path="/api/dokters/{id}",
      *     tags={"Dokter"},
      *     summary="Update a doctor by ID",
      *     @OA\Parameter(
@@ -176,7 +187,7 @@ class DokterController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/dokter/{id}",
+     *     path="/api/dokters/{id}",
      *     tags={"Dokter"},
      *     summary="Delete doctor by ID",
      *     @OA\Parameter(
@@ -195,14 +206,76 @@ class DokterController extends Controller
      *     )
      * )
      */
-    public function destroy(Dokter $dokters)
-    {
-        $dokters->delete();
+    public function destroy($id)
+{
+    $dokter = Dokter::find($id);
 
+    if (!$dokter) {
         return response()->json([
-            'status' => 200,
-            'message' => 'Dokter deleted successfully.',
-            'data' => null,
-        ], 200);
+            'status' => 404,
+            'message' => 'Dokter not found.',
+        ], 404);
+    }
+
+    $dokter->delete();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Dokter deleted successfully.',
+        'data' => null,
+    ], 200);
+}
+
+
+ /**
+ * @OA\Get(
+ *     path="/api/dokters/spesialis/{spesialis}",
+ *     tags={"Dokter"},
+ *     summary="Ambil daftar dokter berdasarkan spesialis",
+ *     @OA\Parameter(
+ *         name="spesialis",
+ *         in="path",
+ *         description="Spesialis dokter, misalnya: anak, gigi, umum",
+ *         required=true,
+ *         @OA\Schema(type="string")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Sukses mengambil data dokter",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Data dokter ditemukan"),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     type="object",
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="nama", type="string", example="dr. Siti"),
+ *                     @OA\Property(property="spesialis", type="string", example="gigi"),
+ *                     @OA\Property(property="no_telp", type="string", example="081234567890"),
+ *                     @OA\Property(property="email", type="string", example="dr.siti@example.com")
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(response=404, description="Dokter tidak ditemukan")
+ * )
+ */
+
+
+ public function getBySpesialis($spesialis)
+ {
+     $dokters = Dokter::where('spesialis', $spesialis)->get();
+ 
+     if ($dokters->isEmpty()) {
+         return response()->json([
+             'message' => 'Tidak ada dokter dengan spesialis ' . $spesialis,
+         ], 404);
+     }
+ 
+     return response()->json([
+         'message' => 'Data dokter ditemukan',
+         'data' => $dokters->makeHidden(['password']),
+     ], 200);
     }
 }

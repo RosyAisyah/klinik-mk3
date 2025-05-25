@@ -24,6 +24,8 @@ Route::get('/dokters/{id}', [DokterController::class, 'show']);
 Route::post('/dokters', [DokterController::class, 'store']); 
 Route::put('/dokters/{id}', [DokterController::class, 'update']); 
 Route::delete('/dokters/{id}', [DokterController::class, 'destroy']); 
+Route::get('/dokters/spesialis/{spesialis}', [DokterController::class, 'getBySpesialis']);
+
 
 Route::get('/rekam_mediss', [Rekam_medisController::class, 'index']);
 Route::get('/rekam_mediss/{id}', [Rekam_medisController::class, 'show']); 
