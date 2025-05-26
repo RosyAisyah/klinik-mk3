@@ -9,6 +9,8 @@ class Konsultasi extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_konsultasi';
+
     protected $fillable = [
         'id_pasien',
         'id_dokter',

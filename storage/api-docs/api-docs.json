@@ -492,6 +492,61 @@
                 }
             }
         },
+        "/api/jadwal_dokter_Hari_Ini": {
+            "get": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Menampilkan daftar dokter yang tersedia berdasarkan hari",
+                "description": "Endpoint ini menampilkan daftar dokter yang siap praktik berdasarkan hari. Jika tidak diberikan parameter hari, maka akan menggunakan hari ini.",
+                "operationId": "cfa8b05346ced3752efb8cc4ea94adc7",
+                "parameters": [
+                    {
+                        "name": "hari",
+                        "in": "query",
+                        "description": "Hari dalam format string (contoh: Senin, Selasa, Rabu, dst). Jika tidak diisi, otomatis ambil hari ini.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Senin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar dokter tersedia",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nama": {
+                                                "type": "string",
+                                                "example": "dr. Sinta Dewi"
+                                            },
+                                            "spesialis": {
+                                                "type": "string",
+                                                "example": "Spesialis Anak"
+                                            },
+                                            "hari": {
+                                                "type": "string",
+                                                "example": "Senin"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/konsultasis": {
             "get": {
                 "tags": [
@@ -1412,6 +1467,148 @@
                 }
             }
         },
+        "/api/pasiens/search": {
+            "get": {
+                "tags": [
+                    "Pasien"
+                ],
+                "summary": "Search pasien by name",
+                "operationId": "807c60e520420d02c2e1b12b0adb72f1",
+                "parameters": [
+                    {
+                        "name": "nama",
+                        "in": "query",
+                        "description": "Nama pasien yang ingin dicari",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar pasien yang cocok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pasien ditemukan."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nama": {
+                                                        "type": "string",
+                                                        "example": "Budi Santoso"
+                                                    },
+                                                    "jenis_kelamin": {
+                                                        "type": "string",
+                                                        "example": "L"
+                                                    },
+                                                    "alamat": {
+                                                        "type": "string",
+                                                        "example": "Jl. Merdeka No.10"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tidak ada pasien ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pasien tidak ditemukan."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pasiens/jenis-kelamin": {
+            "get": {
+                "tags": [
+                    "Pasien"
+                ],
+                "summary": "Get available jenis kelamin options",
+                "description": "Returns list of available gender options for pasien.",
+                "operationId": "getJenisKelaminOptions",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Optional filter for gender",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of gender options"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "Laki-laki"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/payments": {
             "get": {
                 "tags": [
@@ -1816,6 +2013,33 @@
                     },
                     "404": {
                         "description": "Rekam medis tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/rekam_mediss/search": {
+            "get": {
+                "tags": [
+                    "Rekam Medis"
+                ],
+                "summary": "Mencari rekam medis berdasarkan diagnosa",
+                "operationId": "6dac58ff5e5b4a79b0be117dea3657d1",
+                "parameters": [
+                    {
+                        "name": "diagnosa",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Hasil pencarian rekam medis"
+                    },
+                    "404": {
+                        "description": "Tidak ada data ditemukan"
                     }
                 }
             }

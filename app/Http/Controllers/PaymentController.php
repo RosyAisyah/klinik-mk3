@@ -74,7 +74,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'konsultasi_id'    => 'required|integer|exists:konsultasis,id',
+            'id_konsultasi'    => 'required|integer|exists:konsultasis,id_konsultasi',
             'jumlah_bayar'     => 'required|numeric|min:0',
             'metode_bayar'     => 'required|string|in:cash,transfer,ewallet',
             'status_pembayaran'=> 'required|string|in:pending,berhasil,gagal',

@@ -215,4 +215,45 @@ class Rekam_medisController extends Controller
             'data' => null,
         ], 200);
     }
+        /**
+     * @OA\Get(
+     *     path="/api/rekam_mediss/search",
+     *     tags={"Rekam Medis"},
+     *     summary="Mencari rekam medis berdasarkan diagnosa",
+     *     @OA\Parameter(
+     *         name="diagnosa",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Hasil pencarian rekam medis"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tidak ada data ditemukan"
+     *     )
+     * )
+     */
+    public function search(Request $request)
+    {
+        $diagnosa = $request->query('diagnosa');
+
+        $results = Rekam_medis::where('diagnosa', 'like', '%' . $diagnosa . '%')->get();
+
+        if ($results->isEmpty()) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Tidak ada data rekam medis dengan diagnosa tersebut.'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Data rekam medis ditemukan.',
+            'data' => $results
+        ], 200);
+    }
+
 }

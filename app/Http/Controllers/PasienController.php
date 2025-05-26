@@ -251,4 +251,127 @@ class PasienController extends Controller
             'data' => null,
         ], 200);
     }
+    /**
+ * @OA\Get(
+ *     path="/api/pasiens/search",
+ *     summary="Search pasien by name",
+ *     tags={"Pasien"},
+ *     @OA\Parameter(
+ *         name="nama",
+ *         in="query",
+ *         description="Nama pasien yang ingin dicari",
+ *         required=true,
+ *         @OA\Schema(type="string")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Daftar pasien yang cocok",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="integer", example=200),
+ *             @OA\Property(property="message", type="string", example="Pasien ditemukan."),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     type="object",
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="nama", type="string", example="Budi Santoso"),
+ *                     @OA\Property(property="jenis_kelamin", type="string", example="L"),
+ *                     @OA\Property(property="alamat", type="string", example="Jl. Merdeka No.10")
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Tidak ada pasien ditemukan",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="integer", example=404),
+ *             @OA\Property(property="message", type="string", example="Pasien tidak ditemukan."),
+ *             @OA\Property(property="data", type="array", @OA\Items(type="object"))
+ *         )
+ *     )
+ * )
+ */
+public function search(Request $request)
+{
+    $nama = $request->query('nama');
+
+    // Validasi agar parameter 'nama' tidak kosong
+    if (!$nama) {
+        return response()->json([
+            'status' => 400,
+            'message' => 'Parameter nama diperlukan.',
+            'data' => [],
+        ], 400);
+    }
+
+    // Query pencarian (case-insensitive)
+    $pasiens = Pasien::whereRaw('LOWER(nama) LIKE ?', ['%' . strtolower($nama) . '%'])->get();
+
+    if ($pasiens->isEmpty()) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Pasien tidak ditemukan.',
+            'data' => [],
+        ], 404);
+    }
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Pasien ditemukan.',
+        'data' => $pasiens
+    ], 200);
+}
+/**
+ * @OA\Get(
+ *     path="/api/pasiens/jenis-kelamin",
+ *     operationId="getJenisKelaminOptions",
+ *     tags={"Pasien"},
+ *     summary="Get available jenis kelamin options",
+ *     description="Returns list of available gender options for pasien.",
+ *     @OA\Parameter(
+ *         name="filter",
+ *         in="query",
+ *         description="Optional filter for gender",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="string"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="integer", example=200),
+ *             @OA\Property(property="message", type="string", example="List of gender options"),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="array",
+ *                 @OA\Items(type="string", example="Laki-laki")
+ *             )
+ *         )
+ *     )
+ * )
+ */
+public function getJenisKelaminOptions(Request $request)
+{
+    $filter = $request->query('filter');
+    $options = ['Laki-laki', 'Perempuan'];
+
+    if ($filter) {
+        $options = array_filter($options, function ($item) use ($filter) {
+            return stripos($item, $filter) !== false;
+        });
+    }
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Pasien retrieved successfully.',
+        'data' => array_values($options)
+    ]);
+}
 }

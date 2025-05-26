@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\Rekam_medisController;
@@ -15,6 +17,9 @@ Route::get('/pasiens/{id}', [PasienController::class, 'show']);
 Route::post('/pasiens', [PasienController::class, 'store']); 
 Route::put('/pasiens/{id}', [PasienController::class, 'update']); 
 Route::delete('/pasiens/{id}', [PasienController::class, 'destroy']); 
+Route::get('/pasiens/search', [PasienController::class, 'search']);
+Route::get('/pasiens/jenis-kelamin', [PasienController::class, 'JenisKelamin']);
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -33,6 +38,8 @@ Route::get('/rekam_mediss/{id}', [Rekam_medisController::class, 'show']);
 Route::post('/rekam_mediss', [Rekam_medisController::class, 'store']); 
 Route::put('/rekam_mediss/{id}', [Rekam_medisController::class, 'update']); 
 Route::delete('/rekam_mediss/{id}', [Rekam_medisController::class, 'destroy']); 
+Route::get('/rekam_mediss/search', [Rekam_medisController::class, 'search']);
+
 
 
 Route::get('/konsultasis', [KonsultasiController::class, 'index']);            // Menampilkan semua konsultasi
@@ -40,7 +47,8 @@ Route::post('/konsultasis', [KonsultasiController::class, 'store']);           /
 Route::get('/konsultasis/{id}', [KonsultasiController::class, 'show']);        // Menampilkan detail konsultasi tertentu
 Route::put('/konsultasis/{id}', [KonsultasiController::class, 'update']);      // Mengupdate data konsultasi
 Route::delete('/konsultasis/{id}', [KonsultasiController::class, 'destroy']);  // Menghapus data konsultasi
-Route::get('/konsultasis/detail', [KonsultasiController::class, 'indexWithRelasi']);
+Route::get('/konsultasis/detail/{id}', [KonsultasiController::class, 'indexWithRelasi']);
+
 
 
 Route::get('/jadwal_dokter', [JadwalDokterController::class, 'index']);            // Menampilkan semua konsultasi
@@ -49,7 +57,7 @@ Route::get('/jadwal_dokter/{id}', [JadwalDokterController::class, 'show']);     
 Route::put('/jadwal_dokter/{id}', [JadwalDokterController::class, 'update']);      // Mengupdate data konsultasi
 Route::delete('/jadwal_dokter/{id}', [JadwalDokterController::class, 'destroy']);  // Menghapus data konsultasi
 Route::get('/jadwal_dokter_with_dokter', [JadwalDokterController::class, 'getAllWithDokter']);
- 
+Route::get('/jadwal_dokter_Hari_Ini', [JadwalDokterController::class, 'getJadwalHariIni']);
 
 Route::get('/payments', [PaymentController::class, 'index']);            // Menampilkan semua payment
 Route::post('/payments', [PaymentController::class, 'store']);           // Menyimpan payment baru
@@ -66,7 +74,19 @@ Route::get('/laporans/{id}', [LaporanController::class, 'show']);    // GET /api
 Route::put('/laporans/{id}', [LaporanController::class, 'update']);  // PUT /api/laporans/{id}
 Route::delete('/laporans/{id}', [LaporanController::class, 'destroy']); // DELETE /api/laporans/{id}
 
-//check push1
-//check push2
-//check push3
-//check push4
+Route::post('/login', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json(['message' => 'Unauthorized'], 401);
+    }
+
+    return response()->json([
+        'token' => $user->createToken('api-token')->plainTextToken
+    ]);
+});

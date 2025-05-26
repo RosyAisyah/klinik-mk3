@@ -10,7 +10,8 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'konsultasi_id',
+        'id_pembayaran',
+        'id_konsultasi',
         'jumlah_bayar',
         'metode_bayar',
         'status_pembayaran'

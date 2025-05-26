@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('id_konsultasi')->references('id_konsultasi')->on('konsultasis')->onDelete('cascade');
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */

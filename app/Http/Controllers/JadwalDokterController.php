@@ -180,4 +180,68 @@ class JadwalDokterController extends Controller
             'data' => $jadwal_dokters
         ], 200);
     }
+
+/**
+ * @OA\Get(
+ *     path="/api/jadwal_dokter_Hari_Ini",
+ *     tags={"Jadwal Dokter"},
+ *     summary="Menampilkan daftar dokter yang tersedia berdasarkan hari",
+ *     description="Endpoint ini menampilkan daftar dokter yang siap praktik berdasarkan hari. Jika tidak diberikan parameter hari, maka akan menggunakan hari ini.",
+ *     @OA\Parameter(
+ *         name="hari",
+ *         in="query",
+ *         required=false,
+ *         description="Hari dalam format string (contoh: Senin, Selasa, Rabu, dst). Jika tidak diisi, otomatis ambil hari ini.",
+ *         @OA\Schema(type="string", example="Senin")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Daftar dokter tersedia",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(
+ *                 type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="nama", type="string", example="dr. Sinta Dewi"),
+ *                 @OA\Property(property="spesialis", type="string", example="Spesialis Anak"),
+ *                 @OA\Property(property="hari", type="string", example="Senin")
+ *             )
+ *         )
+ *     )
+ * )
+ */
+
+    public function getJadwalHariIni(Request $request)
+    {
+        $hari = $request->query('hari');
+
+        if (!$hari) {
+            $hari = \Carbon\Carbon::now()->locale('id')->isoFormat('dddd');
+        }
+
+        $jadwalHariIni = JadwalDokter::with('dokter')
+            ->where('hari', $hari)
+            ->get()
+            ->map(function ($jadwal) {
+                return [
+                    'id' => $jadwal->dokter->id,
+                    'nama' => $jadwal->dokter->nama,
+                    'spesialis' => $jadwal->dokter->spesialis,
+                    'hari' => $jadwal->hari
+                ];
+            });
+
+        if ($jadwalHariIni->isEmpty()) {
+            return response()->json([
+                'status' => 'tidak tersedia',
+                'message' => "Tidak ada dokter yang tersedia pada hari $hari"
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'tersedia',
+            'message' => "Daftar dokter yang tersedia pada hari $hari",
+            'data' => $jadwalHariIni
+        ]);
+    }
 }

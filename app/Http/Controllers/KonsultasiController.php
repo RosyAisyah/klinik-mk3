@@ -263,15 +263,18 @@ class KonsultasiController extends Controller
  * )
  */
 
-    public function indexWithRelasi()
-    {
-        $konsultasis = Konsultasi::with(['pasien:id,nama,alamat,jenis_kelamin', 'dokter:id,nama,spesialis,no_telp,email'])->get();
-
-        return response()->json([
-            'status' => 200,
-            'message' => 'Konsultasi with relations retrieved successfully.',
-            'data' => $konsultasis
-        ]);
-    }
+ public function indexWithRelasi()
+ {
+     $konsultasis = Konsultasi::with([
+         'pasien:id,nama,alamat,jenis_kelamin',
+         'dokter:id,nama,spesialis,no_telp,email'
+     ])->get();
+ 
+     return response()->json([
+         'status' => 200,
+         'data' => $konsultasis
+     ]);
+ }
+ 
 
 }

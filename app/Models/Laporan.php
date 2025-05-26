@@ -12,6 +12,7 @@ class Laporan extends Model
 
     protected $fillable = [
         'periode',
+        'id_pembayaran',
         'jumlah_pasien',
         'total_pendapatan',
     ];
