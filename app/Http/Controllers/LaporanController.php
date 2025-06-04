@@ -70,9 +70,16 @@ class LaporanController extends Controller
      */
     public function store(Request $request)
     {
+        $periode = $request->input('periode');
+        $laporan = Laporan::where('periode', $periode)->first();
+        if ($laporan) {
+            return response()->json(['message' => 'Laporan dengan periode ini sudah ada'], 409); // Conflict
+        }
+    
         $laporan = Laporan::create($request->all());
         return response()->json($laporan, 201);
     }
+    
 
     /**
      * @OA\Get(
@@ -182,4 +189,33 @@ class LaporanController extends Controller
         $laporan->delete();
         return response()->json(null, 204);
     }
+    /**
+ * @OA\Get(
+ *     path="/api/laporans/summary-relations",
+ *     tags={"Laporan"},
+ *     summary="Menampilkan ringkasan total pasien dan pembayaran berdasarkan relasi",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Berhasil mengambil ringkasan dari relasi",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="total_pasien", type="integer", example=750),
+ *             @OA\Property(property="total_pendapatan", type="number", format="float", example=35000000)
+ *         )
+ *     )
+ * )
+ */
+
+    public function summaryFromRelations()
+{
+    $totalPasien = \App\Models\Pasien::count(); // Jika pasien memiliki kolom laporan_id, bisa ditambahkan where
+    $totalPendapatan = \App\Models\Payment::sum('jumlah'); // Ganti 'jumlah' dengan nama kolom nominal pembayaran
+
+    return response()->json([
+        'total_pasien' => $totalPasien,
+        'total_pendapatan' => $totalPendapatan
+    ]);
 }
+
+}
+
+

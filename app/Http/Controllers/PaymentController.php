@@ -5,28 +5,51 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
+
+/**
+ * @OA\Info(
+ *     title="API Klinik",
+ *     version="1.0.0"
+ * )
+ *
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
+ */
+
 /**
  * @OA\Tag(
  *     name="Payment",
- *     description="API untuk manajemen data pembayaran konsultasi"
+ *     description="API untuk mengelola pembayaran konsultasi"
  * )
  */
 class PaymentController extends Controller
 {
+    public function __construct()
+{
+    \Illuminate\Support\Facades\Route::middleware('auth:sanctum');
+}
+
+
     /**
      * @OA\Get(
      *     path="/api/payments",
      *     tags={"Payment"},
-     *     summary="Ambil semua data pembayaran",
+     *     summary="Get all payments for the authenticated patient",
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
-     *         description="Daftar payment berhasil diambil"
+     *         description="Payment retrieved successfully"
      *     )
      * )
      */
     public function index()
     {
-        $payments = Payment::all();
+        $pasien = auth()->user();
+        $payments = Payment::where('id_pasien', $pasien->id)->get();
 
         return response()->json([
             'status'  => 200,
@@ -35,42 +58,36 @@ class PaymentController extends Controller
         ]);
     }
 
-/**
- * @OA\Post(
- *     path="/api/payments",
- *     tags={"Payment"},
- *     summary="Buat pembayaran baru",
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             required={"konsultasi_id","jumlah_bayar","metode_bayar","status_pembayaran"},
- *             @OA\Property(property="konsultasi_id", type="integer", description="ID konsultasi"),
- *             @OA\Property(property="jumlah_bayar",  type="number",  format="float", description="Jumlah yang dibayar"),
- *             @OA\Property(
- *                 property="metode_bayar",
- *                 type="string",
- *                 enum={"cash","transfer","ewallet"},
- *                 description="Metode pembayaran"
- *             ),
- *             @OA\Property(
- *                 property="status_pembayaran",
- *                 type="string",
- *                 enum={"pending","berhasil","gagal"},
- *                 description="Status pembayaran"
- *             ),
- *             example={
- *                 "konsultasi_id": 0,
- *                 "jumlah_bayar": 0,
- *                 "metode_bayar": "cash/transfer/ewallet",
- *                 "status_pembayaran": "pending/berhasil/gagal"
- *             }
- *         )
- *     ),
- *     @OA\Response(response=201, description="Payment berhasil dibuat"),
- *     @OA\Response(response=404, description="Validasi gagal")
- * )
- */
-
+    /**
+     * @OA\Post(
+     *     path="/api/payments",
+     *     tags={"Payment"},
+     *     summary="Create a new payment",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"id_konsultasi", "jumlah_bayar", "metode_bayar", "status_pembayaran"},
+     *             @OA\Property(property="id_konsultasi", type="integer"),
+     *             @OA\Property(property="jumlah_bayar", type="number", format="float"),
+     *             @OA\Property(property="metode_bayar", type="string", enum={"cash", "transfer", "ewallet"}),
+     *             @OA\Property(property="status_pembayaran", type="string", enum={"pending", "berhasil", "gagal"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Payment created successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -80,20 +97,31 @@ class PaymentController extends Controller
             'status_pembayaran'=> 'required|string|in:pending,berhasil,gagal',
         ]);
 
-        $payment = Payment::create($validated);
+        $pasien = auth()->user();
+
+        $payments = Payment::create([
+            'id_pasien'         => $pasien->id,
+            'id_konsultasi'     => $validated['id_konsultasi'],
+            'jumlah_bayar'      => $validated['jumlah_bayar'],
+            'metode_bayar'      => $validated['metode_bayar'],
+            'status_pembayaran' => $validated['status_pembayaran'],
+        ]);
 
         return response()->json([
             'status'  => 201,
             'message' => 'Payment created successfully.',
-            'data'    => $payment,
+            'data'    => $payments,
         ], 201);
+
+        return response()->json(['message' => 'masuk ke store'], 200);
     }
 
     /**
      * @OA\Get(
      *     path="/api/payments/{id}",
      *     tags={"Payment"},
-     *     summary="Ambil pembayaran berdasarkan ID",
+     *     summary="Get a specific payment by ID for the authenticated patient",
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -102,19 +130,20 @@ class PaymentController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Payment ditemukan"
+     *         description="Payment retrieved successfully"
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Payment tidak ditemukan"
+     *         description="Payment not found"
      *     )
      * )
      */
     public function show($id)
     {
-        $payment = Payment::find($id);
+        $pasien = auth()->user();
+        $payments = Payment::where('id', $id)->where('id_pasien', $pasien->id)->first();
 
-        if (!$payment) {
+        if (!$payments) {
             return response()->json([
                 'status'  => 404,
                 'message' => 'Payment not found.',
@@ -124,7 +153,7 @@ class PaymentController extends Controller
         return response()->json([
             'status'  => 200,
             'message' => 'Payment retrieved successfully.',
-            'data'    => $payment,
+            'data'    => $payments,
         ]);
     }
 
@@ -132,7 +161,8 @@ class PaymentController extends Controller
      * @OA\Put(
      *     path="/api/payments/{id}",
      *     tags={"Payment"},
-     *     summary="Perbarui pembayaran",
+     *     summary="Update an existing payment by ID",
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -142,28 +172,29 @@ class PaymentController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"konsultasi_id","jumlah_bayar","metode_bayar","status_pembayaran"},
-     *             @OA\Property(property="konsultasi_id",   type="integer", example=3),
-     *             @OA\Property(property="jumlah_bayar",    type="number",  format="float", example=175000),
-     *             @OA\Property(property="metode_bayar",    type="string",  enum={"cash","transfer","ewallet"}, example="ewallet"),
-     *             @OA\Property(property="status_pembayaran", type="string", enum={"pending","berhasil","gagal"}, example="berhasil")
+     *             required={"id_konsultasi", "jumlah_bayar", "metode_bayar", "status_pembayaran"},
+     *             @OA\Property(property="id_konsultasi", type="integer"),
+     *             @OA\Property(property="jumlah_bayar", type="number", format="float"),
+     *             @OA\Property(property="metode_bayar", type="string", enum={"cash", "transfer", "ewallet"}),
+     *             @OA\Property(property="status_pembayaran", type="string", enum={"pending", "berhasil", "gagal"})
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Payment berhasil diperbarui"
+     *         description="Payment updated successfully"
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Payment tidak ditemukan"
+     *         description="Payment not found"
      *     )
      * )
      */
     public function update(Request $request, $id)
     {
-        $payment = Payment::find($id);
+        $pasien = auth()->user();
+        $payments = Payment::where('id', $id)->where('id_pasien', $pasien->id)->first();
 
-        if (!$payment) {
+        if (!$payments) {
             return response()->json([
                 'status'  => 404,
                 'message' => 'Payment not found.',
@@ -171,18 +202,18 @@ class PaymentController extends Controller
         }
 
         $validated = $request->validate([
-            'konsultasi_id'    => 'required|integer|exists:konsultasis,id',
+            'id_konsultasi'    => 'required|integer|exists:konsultasis,id_konsultasi',
             'jumlah_bayar'     => 'required|numeric|min:0',
             'metode_bayar'     => 'required|string|in:cash,transfer,ewallet',
             'status_pembayaran'=> 'required|string|in:pending,berhasil,gagal',
         ]);
 
-        $payment->update($validated);
+        $payments->update($validated);
 
         return response()->json([
             'status'  => 200,
             'message' => 'Payment updated successfully.',
-            'data'    => $payment,
+            'data'    => $payments,
         ]);
     }
 
@@ -190,7 +221,8 @@ class PaymentController extends Controller
      * @OA\Delete(
      *     path="/api/payments/{id}",
      *     tags={"Payment"},
-     *     summary="Hapus pembayaran berdasarkan ID",
+     *     summary="Delete a payment by ID",
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -199,26 +231,27 @@ class PaymentController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Payment berhasil dihapus"
+     *         description="Payment deleted successfully"
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Payment tidak ditemukan"
+     *         description="Payment not found"
      *     )
      * )
      */
     public function destroy($id)
     {
-        $payment = Payment::find($id);
+        $pasien = auth()->user();
+        $payments = Payment::where('id', $id)->where('id_pasien', $pasien->id)->first();
 
-        if (!$payment) {
+        if (!$payments) {
             return response()->json([
                 'status'  => 404,
                 'message' => 'Payment not found.',
             ], 404);
         }
 
-        $payment->delete();
+        $payments->delete();
 
         return response()->json([
             'status'  => 200,

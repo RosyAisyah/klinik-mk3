@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Pasien extends Model
+class Pasien extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, Notifiable;
+
+
+    protected $primaryKey = 'id_pasien';
+    public $incrementing = true;
+    protected $keyType = 'int';
+   
 
     protected $fillable = [
         'konsultasi_id',
@@ -19,4 +26,13 @@ class Pasien extends Model
         'email',
         'password'
     ];
+
+    protected $hidden = [
+        'password',
+    ];
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'id_pasien');
+    }
 }

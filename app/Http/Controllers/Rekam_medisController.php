@@ -112,14 +112,24 @@ class Rekam_medisController extends Controller
      *     )
      * )
      */
-    public function show(Rekam_medis $rekam_mediss)
-    {
+    
+     public function show($id)
+{
+    $rekam_Medis = Rekam_Medis::find($id);
+
+    if (!$rekam_Medis) {
         return response()->json([
-            'status' => 200,
-            'message' => 'Rekam Medis retrieved successfully.',
-            'data' => $rekam_mediss,
-        ], 200);
+            'status' => 404,
+            'message' => 'Rekam medis not found.',
+        ], 404);
     }
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Rekam medis retrieved successfully.',
+        'data' => $rekam_Medis,
+    ], 200);
+}
 
     /**
      * @OA\Put(
@@ -205,40 +215,80 @@ class Rekam_medisController extends Controller
      *     )
      * )
      */
-    public function destroy(Rekam_medis $rekam_mediss)
-    {
-        $rekam_mediss->delete();
+    
+     public function destroy($id)
+{
+    $rekam_Medis = Rekam_Medis::find($id);
 
+    if (!$rekam_Medis) {
         return response()->json([
-            'status' => 200,
-            'message' => 'Rekam Medis deleted successfully.',
-            'data' => null,
-        ], 200);
+            'status' => 404,
+            'message' => 'Rekam medis not found.',
+        ], 404);
     }
+
+    $rekam_Medis->delete();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Rekam medis deleted successfully.',
+    ], 200);
+}
+
         /**
      * @OA\Get(
      *     path="/api/rekam_mediss/search",
      *     tags={"Rekam Medis"},
      *     summary="Mencari rekam medis berdasarkan diagnosa",
+     *     description="Endpoint ini digunakan untuk mencari rekam medis berdasarkan diagnosa. Pencarian menggunakan query string, dan mendukung pencarian sebagian kata (LIKE).",
      *     @OA\Parameter(
      *         name="diagnosa",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         description="Diagnosa yang ingin dicari",
+     *         @OA\Schema(type="string", example="demam")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Hasil pencarian rekam medis"
+     *         description="Data rekam medis ditemukan",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Data rekam medis ditemukan."),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="pasien_id", type="integer", example=2),
+     *                     @OA\Property(property="dokter_id", type="integer", example=3),
+     *                     @OA\Property(property="tanggal_periksa", type="string", format="date", example="2025-05-05"),
+     *                     @OA\Property(property="diagnosa", type="string", example="Demam Berdarah"),
+     *                     @OA\Property(property="tindakan", type="string", example="Pemberian infus"),
+     *                     @OA\Property(property="resep_obat", type="string", example="Paracetamol")
+     *                 )
+     *             )
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Tidak ada data ditemukan"
+     *         description="Tidak ada data ditemukan",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=404),
+     *             @OA\Property(property="message", type="string", example="Tidak ada data rekam medis dengan diagnosa tersebut.")
+     *         )
      *     )
      * )
      */
     public function search(Request $request)
     {
         $diagnosa = $request->query('diagnosa');
+
+        if (!$diagnosa) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Parameter diagnosa wajib diisi.'
+            ], 400);
+        }
 
         $results = Rekam_medis::where('diagnosa', 'like', '%' . $diagnosa . '%')->get();
 
@@ -255,5 +305,4 @@ class Rekam_medisController extends Controller
             'data' => $results
         ], 200);
     }
-
 }

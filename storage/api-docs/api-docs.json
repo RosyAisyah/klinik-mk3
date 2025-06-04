@@ -572,7 +572,6 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "id_konsultasi",
                                     "id_pasien",
                                     "id_dokter",
                                     "tanggal_konsul",
@@ -580,9 +579,6 @@
                                     "metode"
                                 ],
                                 "properties": {
-                                    "id_konsultasi": {
-                                        "type": "integer"
-                                    },
                                     "id_pasien": {
                                         "type": "integer"
                                     },
@@ -669,7 +665,6 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "id_konsultasi",
                                     "id_pasien",
                                     "id_dokter",
                                     "tanggal_konsul",
@@ -677,9 +672,6 @@
                                     "metode"
                                 ],
                                 "properties": {
-                                    "id_konsultasi": {
-                                        "type": "integer"
-                                    },
                                     "id_pasien": {
                                         "type": "integer"
                                     },
@@ -688,7 +680,7 @@
                                     },
                                     "tanggal_konsul": {
                                         "type": "string",
-                                        "format": "date-time"
+                                        "format": "date"
                                     },
                                     "status": {
                                         "type": "string",
@@ -752,91 +744,11 @@
                     "Konsultasi"
                 ],
                 "summary": "Menampilkan semua data konsultasi beserta relasi pasien dan dokter",
-                "description": "Mengambil data konsultasi lengkap dengan data pasien (id, nama, alamat, jenis_kelamin) dan dokter (id, nama, spesialis, no_telp, email)",
+                "description": "Mengambil data konsultasi lengkap dengan data pasien dan dokter",
                 "operationId": "836c31639a41597d9d42645f9d582352",
                 "responses": {
                     "200": {
-                        "description": "Konsultasi with relations retrieved successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Konsultasi with relations retrieved successfully."
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "tanggal_konsultasi": {
-                                                        "type": "string",
-                                                        "format": "date",
-                                                        "example": "2025-05-26"
-                                                    },
-                                                    "pasien": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer",
-                                                                "example": 3
-                                                            },
-                                                            "nama": {
-                                                                "type": "string",
-                                                                "example": "Erlinda Nabilla"
-                                                            },
-                                                            "alamat": {
-                                                                "type": "string",
-                                                                "example": "Jl. Melati No. 5"
-                                                            },
-                                                            "jenis_kelamin": {
-                                                                "type": "string",
-                                                                "example": "Perempuan"
-                                                            }
-                                                        },
-                                                        "type": "object"
-                                                    },
-                                                    "dokter": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer",
-                                                                "example": 2
-                                                            },
-                                                            "nama": {
-                                                                "type": "string",
-                                                                "example": "dr. Raka Pratama"
-                                                            },
-                                                            "spesialis": {
-                                                                "type": "string",
-                                                                "example": "Saraf"
-                                                            },
-                                                            "no_telp": {
-                                                                "type": "string",
-                                                                "example": "081234567890"
-                                                            },
-                                                            "email": {
-                                                                "type": "string",
-                                                                "example": "raka@kliniksehat.com"
-                                                            }
-                                                        },
-                                                        "type": "object"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Konsultasi with relations retrieved successfully"
                     }
                 }
             }
@@ -1149,6 +1061,38 @@
                 }
             }
         },
+        "/api/laporans/summary-relations": {
+            "get": {
+                "tags": [
+                    "Laporan"
+                ],
+                "summary": "Menampilkan ringkasan total pasien dan pembayaran berdasarkan relasi",
+                "operationId": "b06265558dbbb529794642f817a6f4ea",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil ringkasan dari relasi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total_pasien": {
+                                            "type": "integer",
+                                            "example": 750
+                                        },
+                                        "total_pendapatan": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 35000000
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/pasiens": {
             "get": {
                 "tags": [
@@ -1158,41 +1102,49 @@
                 "operationId": "945dfdcd2576757eb610a429bd8096ec",
                 "responses": {
                     "200": {
-                        "description": "List of pasien",
+                        "description": "List of all pasien",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer"
-                                            },
-                                            "nama": {
-                                                "type": "string"
-                                            },
-                                            "alamat": {
-                                                "type": "string"
-                                            },
-                                            "jenis_kelamin": {
-                                                "type": "string"
-                                            },
-                                            "no_telp": {
-                                                "type": "integer"
-                                            },
-                                            "tanggal_lahir": {
-                                                "type": "string",
-                                                "format": "date"
-                                            },
-                                            "email": {
-                                                "type": "string"
-                                            },
-                                            "password": {
-                                                "type": "string"
-                                            }
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer"
                                         },
-                                        "type": "object"
-                                    }
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "nama": {
+                                                        "type": "string"
+                                                    },
+                                                    "alamat": {
+                                                        "type": "string"
+                                                    },
+                                                    "jenis_kelamin": {
+                                                        "type": "string"
+                                                    },
+                                                    "no_telp": {
+                                                        "type": "integer"
+                                                    },
+                                                    "tanggal_lahir": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "email": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -1211,7 +1163,6 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "id",
                                     "nama",
                                     "alamat",
                                     "jenis_kelamin",
@@ -1221,9 +1172,6 @@
                                     "password"
                                 ],
                                 "properties": {
-                                    "id": {
-                                        "type": "integer"
-                                    },
                                     "nama": {
                                         "type": "string"
                                     },
@@ -1231,11 +1179,7 @@
                                         "type": "string"
                                     },
                                     "jenis_kelamin": {
-                                        "type": "string",
-                                        "enum": [
-                                            "Laki-laki",
-                                            "Perempuan"
-                                        ]
+                                        "type": "string"
                                     },
                                     "no_telp": {
                                         "type": "integer"
@@ -1258,28 +1202,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Pasien created successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server error"
+                        "description": "Pasien created successfully"
                     }
                 }
             }
@@ -1289,13 +1212,12 @@
                 "tags": [
                     "Pasien"
                 ],
-                "summary": "Get single pasien by ID",
+                "summary": "Get detail of pasien",
                 "operationId": "647e04a6cfa2c2f081d8848029848f45",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the pasien",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1304,41 +1226,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Pasien data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer"
-                                        },
-                                        "nama": {
-                                            "type": "string"
-                                        },
-                                        "alamat": {
-                                            "type": "string"
-                                        },
-                                        "jenis_kelamin": {
-                                            "type": "string"
-                                        },
-                                        "no_telp": {
-                                            "type": "integer"
-                                        },
-                                        "tanggal_lahir": {
-                                            "type": "string",
-                                            "format": "date"
-                                        },
-                                        "email": {
-                                            "type": "string"
-                                        },
-                                        "password": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Pasien found"
                     },
                     "404": {
                         "description": "Pasien not found"
@@ -1349,13 +1237,12 @@
                 "tags": [
                     "Pasien"
                 ],
-                "summary": "Update pasien data",
+                "summary": "Update existing pasien",
                 "operationId": "506ea93982b6d7e5632cc3c6c490464c",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the pasien",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1368,19 +1255,14 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "id",
                                     "nama",
                                     "alamat",
                                     "jenis_kelamin",
                                     "no_telp",
                                     "tanggal_lahir",
-                                    "email",
-                                    "password"
+                                    "email"
                                 ],
                                 "properties": {
-                                    "id": {
-                                        "type": "integer"
-                                    },
                                     "nama": {
                                         "type": "string"
                                     },
@@ -1388,11 +1270,7 @@
                                         "type": "string"
                                     },
                                     "jenis_kelamin": {
-                                        "type": "string",
-                                        "enum": [
-                                            "Laki-laki",
-                                            "Perempuan"
-                                        ]
+                                        "type": "string"
                                     },
                                     "no_telp": {
                                         "type": "integer"
@@ -1415,25 +1293,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Pasien updated successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Pasien updated successfully"
                     },
                     "404": {
                         "description": "Pasien not found"
@@ -1444,13 +1304,12 @@
                 "tags": [
                     "Pasien"
                 ],
-                "summary": "Delete a pasien",
+                "summary": "Delete pasien",
                 "operationId": "60b38afad462e11054489aa5070cb771",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the pasien",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1459,7 +1318,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Pasien deleted successfully."
+                        "description": "Pasien deleted successfully"
                     },
                     "404": {
                         "description": "Pasien not found"
@@ -1473,7 +1332,7 @@
                     "Pasien"
                 ],
                 "summary": "Search pasien by name",
-                "operationId": "807c60e520420d02c2e1b12b0adb72f1",
+                "operationId": "9df85a546cab64980c17bbc73e1ef149",
                 "parameters": [
                     {
                         "name": "nama",
@@ -1487,38 +1346,42 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Daftar pasien yang cocok",
+                        "description": "Pasien ditemukan",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "integer",
-                                            "example": 200
+                                            "type": "integer"
                                         },
                                         "message": {
-                                            "type": "string",
-                                            "example": "Pasien ditemukan."
+                                            "type": "string"
                                         },
                                         "data": {
                                             "type": "array",
                                             "items": {
                                                 "properties": {
                                                     "id": {
-                                                        "type": "integer",
-                                                        "example": 1
+                                                        "type": "integer"
                                                     },
                                                     "nama": {
-                                                        "type": "string",
-                                                        "example": "Budi Santoso"
-                                                    },
-                                                    "jenis_kelamin": {
-                                                        "type": "string",
-                                                        "example": "L"
+                                                        "type": "string"
                                                     },
                                                     "alamat": {
+                                                        "type": "string"
+                                                    },
+                                                    "jenis_kelamin": {
+                                                        "type": "string"
+                                                    },
+                                                    "no_telp": {
+                                                        "type": "integer"
+                                                    },
+                                                    "tanggal_lahir": {
                                                         "type": "string",
-                                                        "example": "Jl. Merdeka No.10"
+                                                        "format": "date"
+                                                    },
+                                                    "email": {
+                                                        "type": "string"
                                                     }
                                                 },
                                                 "type": "object"
@@ -1531,80 +1394,7 @@
                         }
                     },
                     "404": {
-                        "description": "Tidak ada pasien ditemukan",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 404
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Pasien tidak ditemukan."
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/pasiens/jenis-kelamin": {
-            "get": {
-                "tags": [
-                    "Pasien"
-                ],
-                "summary": "Get available jenis kelamin options",
-                "description": "Returns list of available gender options for pasien.",
-                "operationId": "getJenisKelaminOptions",
-                "parameters": [
-                    {
-                        "name": "filter",
-                        "in": "query",
-                        "description": "Optional filter for gender",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "List of gender options"
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string",
-                                                "example": "Laki-laki"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Pasien tidak ditemukan"
                     }
                 }
             }
@@ -1614,19 +1404,24 @@
                 "tags": [
                     "Payment"
                 ],
-                "summary": "Ambil semua data pembayaran",
+                "summary": "Get all payments for the authenticated patient",
                 "operationId": "826dc6b24dd704607aa018a59207dd96",
                 "responses": {
                     "200": {
-                        "description": "Daftar payment berhasil diambil"
+                        "description": "Payment retrieved successfully"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
                     "Payment"
                 ],
-                "summary": "Buat pembayaran baru",
+                "summary": "Create a new payment",
                 "operationId": "5e2794ba3d3c64e70873367505e4a751",
                 "requestBody": {
                     "required": true,
@@ -1634,23 +1429,20 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "konsultasi_id",
+                                    "id_konsultasi",
                                     "jumlah_bayar",
                                     "metode_bayar",
                                     "status_pembayaran"
                                 ],
                                 "properties": {
-                                    "konsultasi_id": {
-                                        "description": "ID konsultasi",
+                                    "id_konsultasi": {
                                         "type": "integer"
                                     },
                                     "jumlah_bayar": {
-                                        "description": "Jumlah yang dibayar",
                                         "type": "number",
                                         "format": "float"
                                     },
                                     "metode_bayar": {
-                                        "description": "Metode pembayaran",
                                         "type": "string",
                                         "enum": [
                                             "cash",
@@ -1659,7 +1451,6 @@
                                         ]
                                     },
                                     "status_pembayaran": {
-                                        "description": "Status pembayaran",
                                         "type": "string",
                                         "enum": [
                                             "pending",
@@ -1669,24 +1460,26 @@
                                     }
                                 },
                                 "type": "object"
-                            },
-                            "example": {
-                                "konsultasi_id": 0,
-                                "jumlah_bayar": 0,
-                                "metode_bayar": "cash/transfer/ewallet",
-                                "status_pembayaran": "pending/berhasil/gagal"
                             }
                         }
                     }
                 },
                 "responses": {
                     "201": {
-                        "description": "Payment berhasil dibuat"
+                        "description": "Payment created successfully"
                     },
-                    "404": {
-                        "description": "Validasi gagal"
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/payments/{id}": {
@@ -1694,7 +1487,7 @@
                 "tags": [
                     "Payment"
                 ],
-                "summary": "Ambil pembayaran berdasarkan ID",
+                "summary": "Get a specific payment by ID for the authenticated patient",
                 "operationId": "a9a7656e0f22931dbcedc57a2d959554",
                 "parameters": [
                     {
@@ -1708,18 +1501,23 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Payment ditemukan"
+                        "description": "Payment retrieved successfully"
                     },
                     "404": {
-                        "description": "Payment tidak ditemukan"
+                        "description": "Payment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
                     "Payment"
                 ],
-                "summary": "Perbarui pembayaran",
+                "summary": "Update an existing payment by ID",
                 "operationId": "9f607012ea3accda178adb489aa28da2",
                 "parameters": [
                     {
@@ -1737,20 +1535,18 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "konsultasi_id",
+                                    "id_konsultasi",
                                     "jumlah_bayar",
                                     "metode_bayar",
                                     "status_pembayaran"
                                 ],
                                 "properties": {
-                                    "konsultasi_id": {
-                                        "type": "integer",
-                                        "example": 3
+                                    "id_konsultasi": {
+                                        "type": "integer"
                                     },
                                     "jumlah_bayar": {
                                         "type": "number",
-                                        "format": "float",
-                                        "example": 175000
+                                        "format": "float"
                                     },
                                     "metode_bayar": {
                                         "type": "string",
@@ -1758,8 +1554,7 @@
                                             "cash",
                                             "transfer",
                                             "ewallet"
-                                        ],
-                                        "example": "ewallet"
+                                        ]
                                     },
                                     "status_pembayaran": {
                                         "type": "string",
@@ -1767,8 +1562,7 @@
                                             "pending",
                                             "berhasil",
                                             "gagal"
-                                        ],
-                                        "example": "berhasil"
+                                        ]
                                     }
                                 },
                                 "type": "object"
@@ -1778,18 +1572,23 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Payment berhasil diperbarui"
+                        "description": "Payment updated successfully"
                     },
                     "404": {
-                        "description": "Payment tidak ditemukan"
+                        "description": "Payment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
                     "Payment"
                 ],
-                "summary": "Hapus pembayaran berdasarkan ID",
+                "summary": "Delete a payment by ID",
                 "operationId": "eee625edf09d69ad0d35b893a3b4f087",
                 "parameters": [
                     {
@@ -1803,12 +1602,17 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Payment berhasil dihapus"
+                        "description": "Payment deleted successfully"
                     },
                     "404": {
-                        "description": "Payment tidak ditemukan"
+                        "description": "Payment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/rekam_mediss": {
@@ -2023,23 +1827,97 @@
                     "Rekam Medis"
                 ],
                 "summary": "Mencari rekam medis berdasarkan diagnosa",
+                "description": "Endpoint ini digunakan untuk mencari rekam medis berdasarkan diagnosa. Pencarian menggunakan query string, dan mendukung pencarian sebagian kata (LIKE).",
                 "operationId": "6dac58ff5e5b4a79b0be117dea3657d1",
                 "parameters": [
                     {
                         "name": "diagnosa",
                         "in": "query",
+                        "description": "Diagnosa yang ingin dicari",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "demam"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Hasil pencarian rekam medis"
+                        "description": "Data rekam medis ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data rekam medis ditemukan."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "pasien_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "dokter_id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "tanggal_periksa": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2025-05-05"
+                                                    },
+                                                    "diagnosa": {
+                                                        "type": "string",
+                                                        "example": "Demam Berdarah"
+                                                    },
+                                                    "tindakan": {
+                                                        "type": "string",
+                                                        "example": "Pemberian infus"
+                                                    },
+                                                    "resep_obat": {
+                                                        "type": "string",
+                                                        "example": "Paracetamol"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Tidak ada data ditemukan"
+                        "description": "Tidak ada data ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tidak ada data rekam medis dengan diagnosa tersebut."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2056,7 +1934,7 @@
         },
         {
             "name": "Payment",
-            "description": "API untuk manajemen data pembayaran konsultasi"
+            "description": "API untuk mengelola pembayaran konsultasi"
         },
         {
             "name": "Rekam Medis",
