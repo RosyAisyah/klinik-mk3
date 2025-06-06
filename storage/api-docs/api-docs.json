@@ -1,0 +1,2394 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "Documentation for the Car Reservation API",
+        "contact": {
+            "email": "admin@example.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/dokters": {
+            "get": {
+                "tags": [
+                    "Dokter"
+                ],
+                "summary": "Get all doctors",
+                "operationId": "db70b3686ffa729caed6aec1d702db53",
+                "responses": {
+                    "200": {
+                        "description": "Dokter retrieved successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Dokter"
+                ],
+                "summary": "Create a new doctor",
+                "operationId": "2ee20325e288366d4de6e926c9de9cd1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id",
+                                    "nama",
+                                    "spesialis",
+                                    "no_telp",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "spesialis": {
+                                        "type": "string"
+                                    },
+                                    "no_telp": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Dokter created successfully"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/dokters/{id}": {
+            "get": {
+                "tags": [
+                    "Dokter"
+                ],
+                "summary": "Get doctor by ID",
+                "operationId": "7a2be6e52059331444507c133ba43152",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dokter retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Dokter not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Dokter"
+                ],
+                "summary": "Update a doctor by ID",
+                "operationId": "b4b4eb4191f7c4c1d1a8a5c8d821c079",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id",
+                                    "nama",
+                                    "spesialis",
+                                    "no_telp",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "spesialis": {
+                                        "type": "string"
+                                    },
+                                    "no_telp": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Dokter updated successfully"
+                    },
+                    "404": {
+                        "description": "Dokter not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Dokter"
+                ],
+                "summary": "Delete doctor by ID",
+                "operationId": "48de73bb6dd2a357941c9ff3296754f5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dokter deleted successfully"
+                    },
+                    "404": {
+                        "description": "Dokter not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/dokters/spesialis/{spesialis}": {
+            "get": {
+                "tags": [
+                    "Dokter"
+                ],
+                "summary": "Ambil daftar dokter berdasarkan spesialis",
+                "operationId": "0a1bf1e1a009ca881f4d992e70d51a8b",
+                "parameters": [
+                    {
+                        "name": "spesialis",
+                        "in": "path",
+                        "description": "Spesialis dokter, misalnya: anak, gigi, umum",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sukses mengambil data dokter",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data dokter ditemukan"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nama": {
+                                                        "type": "string",
+                                                        "example": "dr. Siti"
+                                                    },
+                                                    "spesialis": {
+                                                        "type": "string",
+                                                        "example": "gigi"
+                                                    },
+                                                    "no_telp": {
+                                                        "type": "string",
+                                                        "example": "081234567890"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "dr.siti@example.com"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Dokter tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jadwal_dokter": {
+            "get": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Tampilkan semua jadwal dokter",
+                "operationId": "a4e6a7bd4e06ee80009674209e0b0ec3",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan semua jadwal dokter"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Tambah jadwal dokter baru",
+                "operationId": "c89707ed78a095a1ab1ad1c5422b629a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "dokter_id",
+                                    "hari",
+                                    "jam_mulai",
+                                    "jam_selesai"
+                                ],
+                                "properties": {
+                                    "dokter_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "hari": {
+                                        "type": "string",
+                                        "example": "Senin"
+                                    },
+                                    "jam_mulai": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "08:00"
+                                    },
+                                    "jam_selesai": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "12:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Jadwal berhasil ditambahkan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jadwal_dokter/{id}": {
+            "get": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Tampilkan jadwal dokter berdasarkan ID",
+                "operationId": "5be25cea8725e706c4d8aff1c6ce079a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan jadwal dokter"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Perbarui jadwal dokter",
+                "operationId": "75dfd0083955c91bfeb30e39c17b197b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "dokter_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "hari": {
+                                        "type": "string",
+                                        "example": "Selasa"
+                                    },
+                                    "jam_mulai": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "09:00"
+                                    },
+                                    "jam_selesai": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "13:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Jadwal dokter berhasil diperbarui"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Hapus jadwal dokter",
+                "operationId": "8055070ecef2ac156f2e8e97d9ac8ff5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Jadwal dokter berhasil dihapus"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jadwal_dokter_with_dokter": {
+            "get": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Tampilkan semua jadwal dokter beserta data dokternya",
+                "operationId": "546e4ff651e027b735904472f11e297e",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan data jadwal dokter dengan relasi dokter",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data jadwal dokter ditemukan"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "hari": {
+                                                        "type": "string",
+                                                        "example": "Senin"
+                                                    },
+                                                    "jam_mulai": {
+                                                        "type": "string",
+                                                        "example": "08:00"
+                                                    },
+                                                    "jam_selesai": {
+                                                        "type": "string",
+                                                        "example": "12:00"
+                                                    },
+                                                    "dokter": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nama": {
+                                                                "type": "string",
+                                                                "example": "dr. Andi"
+                                                            },
+                                                            "spesialis": {
+                                                                "type": "string",
+                                                                "example": "Umum"
+                                                            },
+                                                            "no_telp": {
+                                                                "type": "string",
+                                                                "example": "08123456789"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "andi@example.com"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jadwal_dokter_Hari_Ini": {
+            "get": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Menampilkan daftar dokter yang tersedia berdasarkan hari",
+                "description": "Endpoint ini menampilkan daftar dokter yang siap praktik berdasarkan hari. Jika tidak diberikan parameter hari, maka akan menggunakan hari ini.",
+                "operationId": "081d1e602f9973c2ac16eca4a6d3c15e",
+                "parameters": [
+                    {
+                        "name": "hari",
+                        "in": "query",
+                        "description": "Hari dalam format string (contoh: Senin, Selasa, Rabu, dst). Jika tidak diisi, otomatis ambil hari ini.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Senin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar dokter tersedia",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nama": {
+                                                "type": "string",
+                                                "example": "dr. Sinta Dewi"
+                                            },
+                                            "spesialis": {
+                                                "type": "string",
+                                                "example": "Spesialis Anak"
+                                            },
+                                            "hari": {
+                                                "type": "string",
+                                                "example": "Senin"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jadwal_dokter/search": {
+            "get": {
+                "tags": [
+                    "Jadwal Dokter"
+                ],
+                "summary": "Cari jadwal dokter berdasarkan nama dokter (tanpa autentikasi)",
+                "operationId": "3b95ec0095b3f0764898bb989e06c30d",
+                "parameters": [
+                    {
+                        "name": "nama",
+                        "in": "query",
+                        "description": "Nama dokter yang ingin dicari (bisa sebagian)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Andi"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data jadwal dokter ditemukan"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/konsultasis": {
+            "get": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Get all consultations",
+                "operationId": "54e552a7fda300a1126cf4c6ea798f51",
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi retrieved successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Create a new consultation",
+                "operationId": "3201ed36de5741b6d6fa48bcd9177049",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_pasien",
+                                    "id_dokter",
+                                    "tanggal_konsul",
+                                    "status",
+                                    "metode"
+                                ],
+                                "properties": {
+                                    "id_pasien": {
+                                        "type": "integer"
+                                    },
+                                    "id_dokter": {
+                                        "type": "integer"
+                                    },
+                                    "tanggal_konsul": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "selesai",
+                                            "batal"
+                                        ]
+                                    },
+                                    "metode": {
+                                        "type": "string",
+                                        "enum": [
+                                            "online",
+                                            "offline"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Konsultasi created successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/konsultasis/{id}": {
+            "get": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Get a consultation by ID",
+                "operationId": "4aac2ef233f198b3803481a0447237b1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Konsultasi not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Update a consultation by ID",
+                "operationId": "9aab10d61eeefaace852b17d14862a5d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_pasien",
+                                    "id_dokter",
+                                    "tanggal_konsul",
+                                    "status",
+                                    "metode"
+                                ],
+                                "properties": {
+                                    "id_pasien": {
+                                        "type": "integer"
+                                    },
+                                    "id_dokter": {
+                                        "type": "integer"
+                                    },
+                                    "tanggal_konsul": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "selesai",
+                                            "batal"
+                                        ]
+                                    },
+                                    "metode": {
+                                        "type": "string",
+                                        "enum": [
+                                            "online",
+                                            "offline"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi updated successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Delete consultation by ID",
+                "operationId": "b14856ce8969e92290693722f82ee869",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi deleted successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/konsultasis/detail": {
+            "get": {
+                "tags": [
+                    "Konsultasi"
+                ],
+                "summary": "Menampilkan semua data konsultasi beserta relasi pasien dan dokter",
+                "operationId": "3db3dd0131dfdb98e27748d81534cd73",
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi with relations retrieved successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pasiens": {
+            "get": {
+                "tags": [
+                    "Pasien"
+                ],
+                "summary": "Get list of all pasien",
+                "operationId": "7d80f9530b893d2d50326275849912d8",
+                "responses": {
+                    "200": {
+                        "description": "List of all pasien",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "nama": {
+                                                        "type": "string"
+                                                    },
+                                                    "alamat": {
+                                                        "type": "string"
+                                                    },
+                                                    "jenis_kelamin": {
+                                                        "type": "string"
+                                                    },
+                                                    "no_telp": {
+                                                        "type": "string"
+                                                    },
+                                                    "tanggal_lahir": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "email": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Pasien"
+                ],
+                "summary": "Create a new pasien",
+                "operationId": "a20db1627701cdc056284b27e26061e5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nama",
+                                    "alamat",
+                                    "jenis_kelamin",
+                                    "no_telp",
+                                    "tanggal_lahir",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "alamat": {
+                                        "type": "string"
+                                    },
+                                    "jenis_kelamin": {
+                                        "type": "string"
+                                    },
+                                    "no_telp": {
+                                        "type": "string"
+                                    },
+                                    "tanggal_lahir": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pasien created successfully"
+                    }
+                }
+            }
+        },
+        "/api/pasiens/{id}": {
+            "get": {
+                "tags": [
+                    "Pasien"
+                ],
+                "summary": "Get detail of pasien",
+                "operationId": "12b98bd6965dd0792a1c948804246e26",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pasien found"
+                    },
+                    "404": {
+                        "description": "Pasien not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Pasien"
+                ],
+                "summary": "Update existing pasien",
+                "operationId": "35faffac6b4201fa1327619857bd27aa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nama",
+                                    "alamat",
+                                    "jenis_kelamin",
+                                    "no_telp",
+                                    "tanggal_lahir",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "alamat": {
+                                        "type": "string"
+                                    },
+                                    "jenis_kelamin": {
+                                        "type": "string"
+                                    },
+                                    "no_telp": {
+                                        "type": "string"
+                                    },
+                                    "tanggal_lahir": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pasien updated successfully"
+                    },
+                    "404": {
+                        "description": "Pasien not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Pasien"
+                ],
+                "summary": "Delete pasien",
+                "operationId": "b5c54d0ae254ae1834023b22cdda44d4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pasien deleted successfully"
+                    },
+                    "404": {
+                        "description": "Pasien not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pasiens/search": {
+            "get": {
+                "tags": [
+                    "Pasien"
+                ],
+                "summary": "Search pasien by name",
+                "operationId": "251959cdb9165f4f474a1a68411117c5",
+                "parameters": [
+                    {
+                        "name": "nama",
+                        "in": "query",
+                        "description": "Nama pasien yang ingin dicari",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pasien ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "nama": {
+                                                        "type": "string"
+                                                    },
+                                                    "alamat": {
+                                                        "type": "string"
+                                                    },
+                                                    "jenis_kelamin": {
+                                                        "type": "string"
+                                                    },
+                                                    "no_telp": {
+                                                        "type": "string"
+                                                    },
+                                                    "tanggal_lahir": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "email": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pasien tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/payments": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Get all payments",
+                "operationId": "a67c4dcf277fa699515fd3b6d4835388",
+                "responses": {
+                    "200": {
+                        "description": "Payments retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payments retrieved successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Payment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Create a new payment",
+                "operationId": "6b47fbea138d1f528831ed3e92ee46fd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_pasien",
+                                    "id_konsultasi",
+                                    "jumlah_bayar",
+                                    "metode_bayar",
+                                    "status_pembayaran"
+                                ],
+                                "properties": {
+                                    "id_pasien": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_konsultasi": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "jumlah_bayar": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150000
+                                    },
+                                    "metode_bayar": {
+                                        "type": "string",
+                                        "enum": [
+                                            "cash",
+                                            "transfer",
+                                            "ewallet"
+                                        ],
+                                        "example": "transfer"
+                                    },
+                                    "status_pembayaran": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "berhasil",
+                                            "gagal"
+                                        ],
+                                        "example": "pending"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/payments/{id}": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Get a specific payment by ID",
+                "operationId": "055c1b4080a8c5b59d53aa69a505abf5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment retrieved successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Update an existing payment by ID",
+                "operationId": "256d3cd03413b7fd8f82cf4491f08847",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_pasien",
+                                    "id_konsultasi",
+                                    "jumlah_bayar",
+                                    "metode_bayar",
+                                    "status_pembayaran"
+                                ],
+                                "properties": {
+                                    "id_pasien": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_konsultasi": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "jumlah_bayar": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150000
+                                    },
+                                    "metode_bayar": {
+                                        "type": "string",
+                                        "enum": [
+                                            "cash",
+                                            "transfer",
+                                            "ewallet"
+                                        ],
+                                        "example": "transfer"
+                                    },
+                                    "status_pembayaran": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "berhasil",
+                                            "gagal"
+                                        ],
+                                        "example": "pending"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment updated successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Delete a payment by ID",
+                "operationId": "fd511b89a9c38f94cb4d1e5a35fe9f40",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment deleted successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/RekamMedis": {
+            "get": {
+                "tags": [
+                    "Rekam Medis"
+                ],
+                "summary": "Menampilkan semua data rekam medis",
+                "operationId": "6d4e3c082ce8e4dd60f65613c20b4b12",
+                "responses": {
+                    "200": {
+                        "description": "Daftar rekam medis berhasil diambil"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Rekam Medis"
+                ],
+                "summary": "Membuat rekam medis baru",
+                "operationId": "83f07f6dc49f7fe99a1aa9dfbe8dfcfe",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id",
+                                    "pasien_id",
+                                    "dokter_id",
+                                    "tanggal_periksa",
+                                    "diagnosa",
+                                    "tindakan",
+                                    "resep_obat"
+                                ],
+                                "properties": {
+                                    "pasien_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "dokter_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "tanggal_periksa": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-05"
+                                    },
+                                    "diagnosa": {
+                                        "type": "string",
+                                        "example": "Demam Berdarah"
+                                    },
+                                    "tindakan": {
+                                        "type": "string",
+                                        "example": "Pemberian infus dan istirahat total"
+                                    },
+                                    "resep_obat": {
+                                        "type": "string",
+                                        "example": "Paracetamol, multivitamin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rekam medis berhasil dibuat"
+                    },
+                    "500": {
+                        "description": "Kesalahan server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/RekamMedis/{id}": {
+            "get": {
+                "tags": [
+                    "Rekam Medis"
+                ],
+                "summary": "Menampilkan detail rekam medis berdasarkan ID",
+                "operationId": "b4216c7de952d5b35a183c4a94e8097d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rekam medis berhasil ditemukan"
+                    },
+                    "404": {
+                        "description": "Rekam medis tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Rekam Medis"
+                ],
+                "summary": "Memperbarui data rekam medis",
+                "operationId": "d30b89b376724fc279d6f9dbc60ec2ae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id",
+                                    "pasien_id",
+                                    "dokter_id",
+                                    "tanggal_periksa",
+                                    "diagnosa",
+                                    "tindakan",
+                                    "resep_obat"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "pasien_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "dokter_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "tanggal_periksa": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-05"
+                                    },
+                                    "diagnosa": {
+                                        "type": "string",
+                                        "example": "Flu Berat"
+                                    },
+                                    "tindakan": {
+                                        "type": "string",
+                                        "example": "Rawat jalan dan observasi"
+                                    },
+                                    "resep_obat": {
+                                        "type": "string",
+                                        "example": "Obat batuk, vitamin C"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rekam medis berhasil diperbarui"
+                    },
+                    "404": {
+                        "description": "Rekam medis tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Rekam Medis"
+                ],
+                "summary": "Menghapus rekam medis berdasarkan ID",
+                "operationId": "a954a2bb4c445456cfec7d89bd0145eb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rekam medis berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Rekam medis tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/RekamMedis/search": {
+            "get": {
+                "tags": [
+                    "Rekam Medis"
+                ],
+                "summary": "Mencari rekam medis berdasarkan diagnosa",
+                "description": "Endpoint ini digunakan untuk mencari rekam medis berdasarkan diagnosa. Pencarian menggunakan query string, dan mendukung pencarian sebagian kata (LIKE).",
+                "operationId": "1def9cdaf70014df5832688b7f3c912d",
+                "parameters": [
+                    {
+                        "name": "diagnosa",
+                        "in": "query",
+                        "description": "Diagnosa yang ingin dicari",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "demam"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data rekam medis ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data rekam medis ditemukan."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "pasien_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "dokter_id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "tanggal_periksa": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2025-05-05"
+                                                    },
+                                                    "diagnosa": {
+                                                        "type": "string",
+                                                        "example": "Demam Berdarah"
+                                                    },
+                                                    "tindakan": {
+                                                        "type": "string",
+                                                        "example": "Pemberian infus"
+                                                    },
+                                                    "resep_obat": {
+                                                        "type": "string",
+                                                        "example": "Paracetamol"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tidak ada data ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tidak ada data rekam medis dengan diagnosa tersebut."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Registrasi pengguna baru",
+                "operationId": "c34667e39e9e943635afab687914157a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Berhasil Dibuat"
+                    },
+                    "500": {
+                        "description": "Kesalahan Server"
+                    }
+                }
+            }
+        },
+        "/api/user/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Ambil data pengguna berdasarkan ID",
+                "operationId": "c759f2d8c5b8f1f4fc0972dc98192cdf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data pengguna ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/user/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Hapus pengguna berdasarkan ID",
+                "operationId": "d5e4faf75447aa699ce9a33bc08052a9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pengguna berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Pengguna tidak ditemukan"
+                    },
+                    "500": {
+                        "description": "Kesalahan server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/all": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Ambil semua pengguna",
+                "operationId": "efecb46acb3c4b8b77eb6fe3c09e3adc",
+                "responses": {
+                    "200": {
+                        "description": "Daftar semua pengguna berhasil diambil"
+                    },
+                    "500": {
+                        "description": "Kesalahan server"
+                    }
+                }
+            }
+        },
+        "/api/user/update/{id}": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Perbarui data pengguna",
+                "operationId": "38dbfd365bf1bf20a77635d9bcadb93d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe Updated"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john_updated@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "newpassword",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data pengguna berhasil diperbarui"
+                    },
+                    "404": {
+                        "description": "Pengguna tidak ditemukan"
+                    },
+                    "500": {
+                        "description": "Kesalahan server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User Login",
+                "operationId": "2e9c317eea06b322356cd346eb0e29fb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abc123xyz456token"
+                                        },
+                                        "role": {
+                                            "type": "string",
+                                            "example": "admin"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid Credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Credentials are not valid or unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "operationId": "563bedfa982695d45a459257c9a8a36c",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully logged out"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "Token has been revoked"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register new user",
+                "operationId": "7d8c5938c0f8c4cee857ce8e9a12d028",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "user"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "user"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2025-06-02T12:00:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2025-06-02T12:00:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|tokenexample123abc456"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Payment": {
+                "title": "Payment",
+                "required": [
+                    "id_pembayaran",
+                    "id_pasien",
+                    "id_konsultasi",
+                    "jumlah_bayar",
+                    "metode_bayar",
+                    "status_pembayaran"
+                ],
+                "properties": {
+                    "id_pembayaran": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_pasien": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_konsultasi": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "jumlah_bayar": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 150000
+                    },
+                    "metode_bayar": {
+                        "type": "string",
+                        "enum": [
+                            "cash",
+                            "transfer",
+                            "ewallet"
+                        ],
+                        "example": "transfer"
+                    },
+                    "status_pembayaran": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "berhasil",
+                            "gagal"
+                        ],
+                        "example": "pending"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "title": "User Resource",
+                "description": "User data response schema",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "johndoe@example.com"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T00:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-02T00:00:00Z"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "description": "Masukkan token dalam format: Bearer {token}"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Konsultasi",
+            "description": "API untuk mengelola data konsultasi"
+        },
+        {
+            "name": "Rekam Medis",
+            "description": "API untuk mengelola data rekam medis"
+        },
+        {
+            "name": "Dokter",
+            "description": "Dokter"
+        },
+        {
+            "name": "Jadwal Dokter",
+            "description": "Jadwal Dokter"
+        },
+        {
+            "name": "Pasien",
+            "description": "Pasien"
+        },
+        {
+            "name": "Payment",
+            "description": "Payment"
+        },
+        {
+            "name": "User",
+            "description": "User"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}
